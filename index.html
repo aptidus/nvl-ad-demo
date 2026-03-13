@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>NVL — Premium Short-Form Video</title>
+<meta name="description" content="NVL mobile video app demo with integrated ad formats">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div id="app">
+
+<!-- Status Bar -->
+<div class="status-bar">
+  <span class="time" id="status-time">12:00 PM</span>
+  <span class="icons">
+    <span>📶</span><span>🔋 87%</span>
+  </span>
+</div>
+
+<!-- Screens Container -->
+<div class="screens">
+
+<!-- ═══ HOME ═══ -->
+<div class="screen active" id="screen-home">
+  <div class="home-header">
+    <div class="home-logo">NVL</div>
+    <div class="home-header-right">
+      <button class="icon-btn" onclick="switchScreen('search')">🔍</button>
+      <button class="icon-btn">🔔</button>
+    </div>
+  </div>
+
+  <!-- Hero Carousel -->
+  <div class="hero-carousel" onclick="openPlayer(0,0)">
+    <div class="hero-slide active">
+      <img src="assets/episode-1.png" alt="Fractured">
+      <div class="hero-overlay">
+        <span class="hero-tag">★ Featured Series</span>
+        <div class="hero-title">Fractured</div>
+        <div class="hero-meta">12 Episodes · Psychological Thriller · New</div>
+      </div>
+    </div>
+    <div class="hero-slide">
+      <img src="assets/poster-neon-saints.png" alt="Neon Saints">
+      <div class="hero-overlay">
+        <span class="hero-tag">🔥 Trending #1</span>
+        <div class="hero-title">Neon Saints</div>
+        <div class="hero-meta">9 Episodes · Crime Drama</div>
+      </div>
+    </div>
+    <div class="hero-slide">
+      <img src="assets/poster-last-exit.png" alt="Last Exit">
+      <div class="hero-overlay">
+        <span class="hero-tag">New Season</span>
+        <div class="hero-title">Last Exit</div>
+        <div class="hero-meta">14 Episodes · Action Thriller</div>
+      </div>
+    </div>
+    <div class="hero-dots">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+
+  <!-- Continue Watching -->
+  <div class="section-header">
+    <div class="section-title">Continue Watching</div>
+    <div class="section-more">See All ▸</div>
+  </div>
+  <div class="scroll-row">
+    <div class="show-card" onclick="openPlayer(0,3)">
+      <div class="poster"><img src="assets/episode-1.png" alt="Fractured"></div>
+      <div class="card-title">Fractured</div>
+      <div class="card-meta">EP 4 · 8m left</div>
+    </div>
+    <div class="show-card" onclick="openPlayer(2,1)">
+      <div class="poster"><img src="assets/episode-3.png" alt="Glass Walls"></div>
+      <div class="card-title">Glass Walls</div>
+      <div class="card-meta">EP 2 · 12m left</div>
+    </div>
+    <div class="show-card" onclick="openPlayer(4,0)">
+      <div class="poster"><img src="assets/poster-the-algorithm.png" alt="The Algorithm"></div>
+      <div class="card-title">The Algorithm</div>
+      <div class="card-meta">EP 1 · New</div>
+    </div>
+  </div>
+
+  <!-- Trending Now -->
+  <div class="section-header">
+    <div class="section-title">Trending Now</div>
+    <div class="section-more">See All ▸</div>
+  </div>
+  <div class="scroll-row">
+    <div class="show-card" onclick="openPlayer(6,0)"><div class="poster"><img src="assets/poster-neon-saints.png" alt="Neon Saints"></div><div class="card-title">Neon Saints</div><div class="card-meta">9 Episodes</div></div>
+    <div class="show-card" onclick="openPlayer(5,0)"><div class="poster"><img src="assets/poster-last-exit.png" alt="Last Exit"></div><div class="card-title">Last Exit</div><div class="card-meta">14 Episodes</div></div>
+    <div class="show-card" onclick="openPlayer(3,0)"><div class="poster"><img src="assets/poster-silk-thorns.png" alt="Silk & Thorns"></div><div class="card-title">Silk & Thorns</div><div class="card-meta">10 Episodes</div></div>
+    <div class="show-card" onclick="openPlayer(7,0)"><div class="poster"><img src="assets/poster-still-water.png" alt="Still Water"></div><div class="card-title">Still Water</div><div class="card-meta">8 Episodes</div></div>
+  </div>
+
+  <!-- New Releases Grid -->
+  <div class="section-header">
+    <div class="section-title">New Releases</div>
+    <div class="section-more">See All ▸</div>
+  </div>
+  <div class="poster-grid">
+    <div class="grid-card" onclick="openPlayer(1,0)">
+      <img src="assets/episode-2.png" alt="Cold Trail">
+      <span class="new-badge">NEW</span>
+      <span class="ep-badge">8 EP</span>
+      <div class="grid-overlay">
+        <div class="grid-genre">Crime Drama</div>
+        <div class="grid-title">Cold Trail</div>
+      </div>
+    </div>
+    <div class="grid-card" onclick="openPlayer(7,0)">
+      <img src="assets/poster-still-water.png" alt="Still Water">
+      <span class="new-badge">NEW</span>
+      <span class="ep-badge">8 EP</span>
+      <div class="grid-overlay">
+        <div class="grid-genre">Mystery Drama</div>
+        <div class="grid-title">Still Water</div>
+      </div>
+    </div>
+    <div class="grid-card" onclick="openPlayer(4,0)">
+      <img src="assets/poster-the-algorithm.png" alt="The Algorithm">
+      <span class="ep-badge">6 EP</span>
+      <div class="grid-overlay">
+        <div class="grid-genre">Cyber Thriller</div>
+        <div class="grid-title">The Algorithm</div>
+      </div>
+    </div>
+    <div class="grid-card" onclick="openPlayer(3,0)">
+      <img src="assets/poster-silk-thorns.png" alt="Silk & Thorns">
+      <span class="ep-badge">10 EP</span>
+      <div class="grid-overlay">
+        <div class="grid-genre">Romantic Drama</div>
+        <div class="grid-title">Silk & Thorns</div>
+      </div>
+    </div>
+  </div>
+  <div class="spacer-lg"></div>
+</div>
+
+<!-- ═══ PLAYER ═══ -->
+<div class="screen" id="screen-player">
+  <div class="player-container">
+    <img id="poster-fallback" class="poster-fallback" src="assets/episode-1.png" alt="">
+    <video id="main-video" playsinline preload="none" muted></video>
+    <div class="player-overlay">
+      <div class="player-top">
+        <button class="player-back" onclick="switchScreen('home')">←</button>
+        <div class="player-episode-label" id="player-ep-label">EP 1 OF 12</div>
+        <button class="player-more-btn">⋮</button>
+      </div>
+      <div class="player-bottom">
+        <div class="player-genre-tag" id="player-genre">Psychological Thriller</div>
+        <div class="player-show-title" id="player-title">Fractured</div>
+        <div class="player-description" id="player-desc">A detective unravels her own past while chasing a serial case.</div>
+        <div class="player-progress-bar"><div class="player-progress-fill" id="progress-fill"></div></div>
+        <div class="player-time"><span id="time-current">0:00</span><span id="time-total">0:00</span></div>
+      </div>
+    </div>
+    <div id="play-center" class="play-center">▶</div>
+    <!-- Action Rail -->
+    <div class="action-rail">
+      <div class="action-btn like-btn" onclick="event.stopPropagation();toggleLike()">
+        <div class="action-icon">🤍</div>
+        <div class="action-label">12.4K</div>
+      </div>
+      <div class="action-btn" onclick="event.stopPropagation();doAction('comment')">
+        <div class="action-icon">💬</div>
+        <div class="action-label">847</div>
+      </div>
+      <div class="action-btn" onclick="event.stopPropagation();doAction('share')">
+        <div class="action-icon">↗</div>
+        <div class="action-label">Share</div>
+      </div>
+      <div class="action-btn" onclick="event.stopPropagation();doAction('bookmark')">
+        <div class="action-icon">🔖</div>
+        <div class="action-label">Save</div>
+      </div>
+    </div>
+    <div class="swipe-hint">↕ SWIPE FOR NEXT EPISODE</div>
+  </div>
+
+  <!-- Push-Up Banner Ad (inside player) -->
+  <div class="ad-banner" id="ad-banner">
+    <div class="banner-img"><img src="assets/ad-mercedes-banner.png" alt="Ad"></div>
+    <div class="banner-info">
+      <div class="banner-brand">Sponsored · Mercedes-Benz</div>
+      <div class="banner-title">The best or nothing.</div>
+      <div class="banner-cta" onclick="showToast('Opening advertiser page...')">DISCOVER MORE ▸</div>
+    </div>
+    <button class="banner-close" onclick="event.stopPropagation();closeBanner()">✕</button>
+  </div>
+</div>
+
+<!-- ═══ SEARCH ═══ -->
+<div class="screen" id="screen-search">
+  <div class="search-header">
+    <h2>Discover</h2>
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" placeholder="Search shows, genres, creators...">
+    </div>
+  </div>
+  <div class="category-pills">
+    <div class="pill active" onclick="selectPill(this)">All</div>
+    <div class="pill" onclick="selectPill(this)">Thriller</div>
+    <div class="pill" onclick="selectPill(this)">Drama</div>
+    <div class="pill" onclick="selectPill(this)">Crime</div>
+    <div class="pill" onclick="selectPill(this)">Romance</div>
+    <div class="pill" onclick="selectPill(this)">Action</div>
+    <div class="pill" onclick="selectPill(this)">Mystery</div>
+    <div class="pill" onclick="selectPill(this)">Sci-Fi</div>
+  </div>
+  <div class="section-header" style="margin-top:8px"><div class="section-title">🔥 Trending This Week</div></div>
+  <div class="trending-list">
+    <div class="trending-item" onclick="openPlayer(0,0)">
+      <div class="trending-rank">1</div>
+      <div class="trending-thumb"><img src="assets/episode-1.png" alt="Fractured"></div>
+      <div class="trending-info"><div class="t-title">Fractured</div><div class="t-meta">Psychological Thriller · 12 EP · ↑ 3 spots</div></div>
+      <div class="trending-fire">🔥</div>
+    </div>
+    <div class="trending-item" onclick="openPlayer(6,0)">
+      <div class="trending-rank">2</div>
+      <div class="trending-thumb"><img src="assets/poster-neon-saints.png" alt="Neon Saints"></div>
+      <div class="trending-info"><div class="t-title">Neon Saints</div><div class="t-meta">Crime Drama · 9 EP · New entry</div></div>
+      <div class="trending-fire">🔥</div>
+    </div>
+    <div class="trending-item" onclick="openPlayer(5,0)">
+      <div class="trending-rank">3</div>
+      <div class="trending-thumb"><img src="assets/poster-last-exit.png" alt="Last Exit"></div>
+      <div class="trending-info"><div class="t-title">Last Exit</div><div class="t-meta">Action Thriller · 14 EP · ↑ 1 spot</div></div>
+    </div>
+    <div class="trending-item" onclick="openPlayer(1,0)">
+      <div class="trending-rank">4</div>
+      <div class="trending-thumb"><img src="assets/episode-2.png" alt="Cold Trail"></div>
+      <div class="trending-info"><div class="t-title">Cold Trail</div><div class="t-meta">Crime Drama · 8 EP · ↓ 2 spots</div></div>
+    </div>
+    <div class="trending-item" onclick="openPlayer(4,0)">
+      <div class="trending-rank">5</div>
+      <div class="trending-thumb"><img src="assets/poster-the-algorithm.png" alt="The Algorithm"></div>
+      <div class="trending-info"><div class="t-title">The Algorithm</div><div class="t-meta">Cyber Thriller · 6 EP · New entry</div></div>
+    </div>
+    <div class="trending-item" onclick="openPlayer(7,0)">
+      <div class="trending-rank">6</div>
+      <div class="trending-thumb"><img src="assets/poster-still-water.png" alt="Still Water"></div>
+      <div class="trending-info"><div class="t-title">Still Water</div><div class="t-meta">Mystery Drama · 8 EP</div></div>
+    </div>
+    <div class="trending-item" onclick="openPlayer(3,0)">
+      <div class="trending-rank">7</div>
+      <div class="trending-thumb"><img src="assets/poster-silk-thorns.png" alt="Silk & Thorns"></div>
+      <div class="trending-info"><div class="t-title">Silk & Thorns</div><div class="t-meta">Romantic Drama · 10 EP</div></div>
+    </div>
+    <div class="trending-item" onclick="openPlayer(2,0)">
+      <div class="trending-rank">8</div>
+      <div class="trending-thumb"><img src="assets/episode-3.png" alt="Glass Walls"></div>
+      <div class="trending-info"><div class="t-title">Glass Walls</div><div class="t-meta">Romance Thriller · 16 EP</div></div>
+    </div>
+  </div>
+  <div class="spacer-lg"></div>
+</div>
+
+<!-- ═══ MY LIST ═══ -->
+<div class="screen" id="screen-mylist">
+  <div class="mylist-header"><h2>My List</h2></div>
+  <div class="mylist-tabs">
+    <div class="mylist-tab active" onclick="selectListTab(this)">Saved</div>
+    <div class="mylist-tab" onclick="selectListTab(this)">Watched</div>
+    <div class="mylist-tab" onclick="selectListTab(this)">Downloads</div>
+  </div>
+  <div class="scroll-row">
+    <div class="show-card" onclick="openPlayer(0,3)"><div class="poster"><img src="assets/episode-1.png" alt="Fractured"></div><div class="card-title">Fractured</div><div class="card-meta">EP 4 · In Progress</div></div>
+    <div class="show-card" onclick="openPlayer(6,0)"><div class="poster"><img src="assets/poster-neon-saints.png" alt="Neon Saints"></div><div class="card-title">Neon Saints</div><div class="card-meta">Not Started</div></div>
+    <div class="show-card" onclick="openPlayer(4,0)"><div class="poster"><img src="assets/poster-the-algorithm.png" alt="The Algorithm"></div><div class="card-title">The Algorithm</div><div class="card-meta">Not Started</div></div>
+  </div>
+  <div class="section-header"><div class="section-title">Recommended For You</div></div>
+  <div class="poster-grid">
+    <div class="grid-card" onclick="openPlayer(5,0)"><img src="assets/poster-last-exit.png" alt="Last Exit"><span class="ep-badge">14 EP</span><div class="grid-overlay"><div class="grid-genre">Action Thriller</div><div class="grid-title">Last Exit</div></div></div>
+    <div class="grid-card" onclick="openPlayer(7,0)"><img src="assets/poster-still-water.png" alt="Still Water"><span class="ep-badge">8 EP</span><div class="grid-overlay"><div class="grid-genre">Mystery Drama</div><div class="grid-title">Still Water</div></div></div>
+  </div>
+  <div class="spacer-lg"></div>
+</div>
+
+<!-- ═══ PROFILE ═══ -->
+<div class="screen" id="screen-profile">
+  <div class="profile-header">
+    <div class="profile-avatar"><img src="assets/user-avatar.png" alt="Alex"></div>
+    <div class="profile-name">Alex Navarro</div>
+    <div class="profile-handle">@alex_nvl</div>
+    <div class="profile-badge">⭐ PREMIUM MEMBER</div>
+  </div>
+  <div class="profile-stats">
+    <div class="stat-item"><div class="stat-value">47</div><div class="stat-label">Watched</div></div>
+    <div class="stat-item"><div class="stat-value">12</div><div class="stat-label">In Progress</div></div>
+    <div class="stat-item"><div class="stat-value">156</div><div class="stat-label">Hours</div></div>
+  </div>
+  <div class="profile-section">
+    <div class="section-title">PREFERENCES</div>
+    <div class="setting-row"><div class="setting-left"><div class="setting-icon">🎬</div><div class="setting-label">Autoplay Next</div></div><div class="toggle on" onclick="toggleSetting(this)"></div></div>
+    <div class="setting-row"><div class="setting-left"><div class="setting-icon">🔔</div><div class="setting-label">Notifications</div></div><div class="toggle on" onclick="toggleSetting(this)"></div></div>
+    <div class="setting-row"><div class="setting-left"><div class="setting-icon">📱</div><div class="setting-label">Cellular Downloads</div></div><div class="toggle" onclick="toggleSetting(this)"></div></div>
+    <div class="setting-row"><div class="setting-left"><div class="setting-icon">🌙</div><div class="setting-label">Sleep Timer</div></div><div class="setting-right">▸</div></div>
+  </div>
+  <div class="profile-section">
+    <div class="section-title">ACCOUNT</div>
+    <div class="setting-row"><div class="setting-left"><div class="setting-icon">💳</div><div class="setting-label">Subscription</div></div><div class="setting-right">Premium ▸</div></div>
+    <div class="setting-row"><div class="setting-left"><div class="setting-icon">📊</div><div class="setting-label">Watch History</div></div><div class="setting-right">▸</div></div>
+    <div class="setting-row"><div class="setting-left"><div class="setting-icon">🔒</div><div class="setting-label">Privacy</div></div><div class="setting-right">▸</div></div>
+    <div class="setting-row"><div class="setting-left"><div class="setting-icon">❓</div><div class="setting-label">Help & Support</div></div><div class="setting-right">▸</div></div>
+  </div>
+  <div class="spacer-lg"></div>
+</div>
+</div><!-- /screens -->
+
+<!-- Bottom Nav -->
+<nav class="bottom-nav">
+  <div class="nav-item active" data-screen="home" onclick="switchScreen('home')">
+    <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 001 1h3a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1h3a1 1 0 001-1V10"/></svg></div>
+    <span class="nav-label">Home</span>
+  </div>
+  <div class="nav-item" data-screen="search" onclick="switchScreen('search')">
+    <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+    <span class="nav-label">Search</span>
+  </div>
+  <div class="nav-center" onclick="openPlayer(0,0)">▶</div>
+  <div class="nav-item" data-screen="mylist" onclick="switchScreen('mylist')">
+    <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div>
+    <span class="nav-label">My List</span>
+  </div>
+  <div class="nav-item" data-screen="profile" onclick="switchScreen('profile')">
+    <div class="nav-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-7 8-7s8 3 8 7"/></svg></div>
+    <span class="nav-label">Profile</span>
+  </div>
+</nav>
+</div><!-- /app -->
+
+<!-- ═══ AD OVERLAYS ═══ -->
+
+<!-- Interstitial Ad -->
+<div class="ad-interstitial" id="ad-interstitial">
+  <div class="ad-label">ADVERTISEMENT</div>
+  <img src="assets/ad-mercedes-interstitial.png" alt="Ad">
+  <button class="skip-btn" id="skip-btn" onclick="closeInterstitial()">Skip in 3s</button>
+  <button class="ad-cta" onclick="showToast('Opening advertiser...')">LEARN MORE</button>
+</div>
+
+<!-- Title Sponsorship Outro -->
+<div class="ad-outro" id="ad-outro">
+  <button class="outro-close" onclick="closeOutro()">✕</button>
+  <div class="outro-presented">Sponsored by</div>
+  <div class="outro-brand">MERCEDES-BENZ</div>
+  <div class="outro-next-label">Up Next</div>
+  <div class="outro-next-title" id="outro-next">Cold Trail · Episode 1</div>
+  <div class="outro-countdown" id="outro-countdown">5</div>
+</div>
+
+<!-- FAB Demo Trigger -->
+<button class="demo-fab" onclick="toggleDemo()">⚡</button>
+<div class="demo-panel">
+  <h3>Ad Formats</h3>
+  <button class="demo-btn" onclick="triggerAd('interstitial')">🖼 Interstitial<div class="demo-desc">Full-screen between episodes</div></button>
+  <button class="demo-btn" onclick="triggerAd('banner')">📢 Push-Up Banner<div class="demo-desc">Slides up during playback</div></button>
+  <button class="demo-btn" onclick="triggerAd('genre')">🏷 Genre Sponsorship<div class="demo-desc">Branded genre tag on player</div></button>
+  <button class="demo-btn" onclick="triggerAd('outro')">🎬 Title Outro<div class="demo-desc">Post-episode brand moment</div></button>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
