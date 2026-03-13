@@ -554,8 +554,16 @@ function closeBanner() {
 }
 
 function showOutro() {
-  pauseVideo();
+  // Don't pause video — let it keep playing underneath the overlay
   const el = document.getElementById('ad-outro');
+
+  // Reset any previous fade-out state and child animations
+  el.classList.remove('fade-out');
+  el.querySelectorAll('.outro-presented, .outro-brand, .outro-next-label, .outro-next-title, .outro-countdown').forEach(c => {
+    c.style.animation = 'none';
+    c.offsetHeight; // force reflow
+    c.style.animation = '';
+  });
 
   // Show correct brand in outro
   const show = SHOWS[currentShowIndex];
@@ -563,7 +571,7 @@ function showOutro() {
   const brandEl = el.querySelector('.outro-brand');
   if (sponsor) {
     brandEl.textContent = sponsor.brand.toUpperCase();
-    brandEl.style.color = sponsor.color;
+    brandEl.style.color = sponsor.color || 'rgba(255,255,255,.85)';
     el.querySelector('.outro-presented').textContent = 'Sponsored by';
   } else {
     brandEl.textContent = '';
@@ -575,30 +583,46 @@ function showOutro() {
   const nextShow = SHOWS[nextIdx];
   document.getElementById('outro-next').textContent = nextShow.title + ' · Episode 1';
 
+  // Fade in the overlay (CSS transition handles the 1.2s ease)
   el.classList.add('active');
+
+  // Start countdown after animations finish (~2.2s)
   let count = 5;
   const countEl = document.getElementById('outro-countdown');
   countEl.textContent = count;
-  const timer = setInterval(() => {
-    count--;
-    countEl.textContent = count;
-    if (count <= 0) {
-      clearInterval(timer);
-      closeOutro();
-      // Go to next show
-      currentShowIndex = nextIdx;
-      currentEpisode = 0;
-      updatePlayerInfo();
-      playCurrentVideo();
-    }
-  }, 1000);
-  el._timer = timer;
+  const delayTimer = setTimeout(() => {
+    // Now pause the video (overlay is fully visible)
+    pauseVideo();
+    const timer = setInterval(() => {
+      count--;
+      countEl.textContent = count;
+      if (count <= 0) {
+        clearInterval(timer);
+        // Fade out the overlay before transitioning
+        el.classList.add('fade-out');
+        setTimeout(() => {
+          el.classList.remove('active', 'fade-out');
+          // Go to next show
+          currentShowIndex = nextIdx;
+          currentEpisode = 0;
+          updatePlayerInfo();
+          playCurrentVideo();
+        }, 800); // match the fade-out transition duration
+      }
+    }, 1000);
+    el._timer = timer;
+  }, 2200);
+  el._delayTimer = delayTimer;
 }
 
 function closeOutro() {
   const el = document.getElementById('ad-outro');
-  el.classList.remove('active');
+  if (el._delayTimer) clearTimeout(el._delayTimer);
   if (el._timer) clearInterval(el._timer);
+  el.classList.add('fade-out');
+  setTimeout(() => {
+    el.classList.remove('active', 'fade-out');
+  }, 800);
 }
 
 // ── DEMO PANEL ──
@@ -677,7 +701,24 @@ function doAction(action) {
 function selectPill(el) {
   document.querySelectorAll('.pill').forEach(p => p.classList.remove('active'));
   el.classList.add('active');
-  showToast('Filtering: ' + el.textContent);
+  const filter = el.textContent.trim().toLowerCase();
+  // Filter trending list
+  const items = document.querySelectorAll('#trending-list .trending-item');
+  items.forEach(item => {
+    if (filter === 'all') { item.style.display = ''; return; }
+    const meta = item.querySelector('.t-meta');
+    item.style.display = meta && meta.textContent.toLowerCase().includes(filter) ? '' : 'none';
+  });
+  // Filter genre sections
+  const sections = document.querySelectorAll('#search-genre-sections .section-header');
+  sections.forEach(header => {
+    const row = header.nextElementSibling;
+    if (filter === 'all') { header.style.display = ''; if (row) row.style.display = ''; return; }
+    const genreText = header.textContent.toLowerCase();
+    const visible = genreText.includes(filter);
+    header.style.display = visible ? '' : 'none';
+    if (row) row.style.display = visible ? '' : 'none';
+  });
 }
 
 // ── MY LIST TABS ──
@@ -691,8 +732,127 @@ function toggleSetting(el) {
   el.classList.toggle('on');
 }
 
+// ── DYNAMIC SCREEN POPULATION ──
+// Builds all browse sections from the SHOWS array so every title is discoverable
+
+function populateScreens() {
+  // — Helpers —
+  function showCard(idx, meta) {
+    const s = SHOWS[idx];
+    return `<div class="show-card" onclick="openPlayer(${idx},0)"><div class="poster"><img src="${s.poster}" alt="${s.title}"></div><div class="card-title">${s.title}</div><div class="card-meta">${meta}</div></div>`;
+  }
+  function gridCard(idx, isNew) {
+    const s = SHOWS[idx];
+    return `<div class="grid-card" onclick="openPlayer(${idx},0)"><img src="${s.poster}" alt="${s.title}">${isNew ? '<span class="new-badge">NEW</span>' : ''}<span class="ep-badge">${s.eps} EP</span><div class="grid-overlay"><div class="grid-genre">${s.genre}</div><div class="grid-title">${s.title}</div></div></div>`;
+  }
+  function trendingItem(idx, rank) {
+    const s = SHOWS[idx];
+    const movement = rank <= 3 ? ' · 🔥' : '';
+    return `<div class="trending-item" onclick="openPlayer(${idx},0)"><div class="trending-rank">${rank}</div><div class="trending-thumb"><img src="${s.poster}" alt="${s.title}"></div><div class="trending-info"><div class="t-title">${s.title}</div><div class="t-meta">${s.genre} · ${s.eps} EP${movement}</div></div>${rank <= 3 ? '<div class="trending-fire">🔥</div>' : ''}</div>`;
+  }
+  function scrollRowSection(title, html) {
+    return `<div class="section-header"><div class="section-title">${title}</div><div class="section-more">See All ▸</div></div><div class="scroll-row">${html}</div>`;
+  }
+
+  // — Shuffle helper (deterministic-ish for variety) —
+  function shuffle(arr) {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = (i * 7 + 3) % (i + 1);
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  const allIndices = SHOWS.map((_, i) => i);
+
+  // ═══ HOME SCREEN ═══
+
+  // Continue Watching — pick 6 random shows with simulated progress
+  const continueWatching = shuffle(allIndices).slice(0, 6);
+  document.getElementById('row-continue').innerHTML = continueWatching.map(idx => {
+    const ep = 1 + (idx * 3) % SHOWS[idx].eps;
+    const mins = 2 + (idx * 7) % 15;
+    return showCard(idx, `EP ${ep} · ${mins}m left`);
+  }).join('');
+
+  // Trending Now — pick 8 different shows
+  const trending = shuffle(allIndices).slice(0, 8);
+  document.getElementById('row-trending').innerHTML = trending.map(idx =>
+    showCard(idx, `${SHOWS[idx].eps} Episodes`)
+  ).join('');
+
+  // New Releases Grid — pick 8 more
+  const newReleases = shuffle(allIndices).slice(0, 8);
+  document.getElementById('grid-new-releases').innerHTML = newReleases.map(idx =>
+    gridCard(idx, Math.random() > 0.4)
+  ).join('');
+
+  // Genre-based rows — group shows by broad genre, create a scroll row for each
+  const genreGroups = {};
+  SHOWS.forEach((s, i) => {
+    // Broad genre extraction
+    const g = s.genre.split(/\s+/)[0]; // first word: "Crime", "Action", "Romantic", etc.
+    const key = g.replace(/[^a-zA-Z]/g, '');
+    if (!genreGroups[key]) genreGroups[key] = [];
+    genreGroups[key].push(i);
+  });
+  const genreContainer = document.getElementById('genre-rows-container');
+  let genreHTML = '';
+  for (const [genre, indices] of Object.entries(genreGroups)) {
+    if (indices.length < 2) continue; // skip single-show genres on home
+    const label = genre.charAt(0).toUpperCase() + genre.slice(1);
+    genreHTML += scrollRowSection(label, indices.map(idx => showCard(idx, `${SHOWS[idx].eps} Episodes`)).join(''));
+  }
+  genreContainer.innerHTML = genreHTML;
+
+  // ═══ SEARCH / DISCOVER SCREEN ═══
+
+  // Trending list — all shows ranked
+  const trendingList = document.getElementById('trending-list');
+  // Show top 15 in trending
+  const trendingOrder = shuffle(allIndices).slice(0, 15);
+  trendingList.innerHTML = trendingOrder.map((idx, rank) =>
+    trendingItem(idx, rank + 1)
+  ).join('');
+
+  // Genre sections below trending on search screen
+  const searchGenres = document.getElementById('search-genre-sections');
+  let searchHTML = '';
+  // Full genre map for search (more granular)
+  const fullGenreMap = {};
+  SHOWS.forEach((s, i) => {
+    if (!fullGenreMap[s.genre]) fullGenreMap[s.genre] = [];
+    fullGenreMap[s.genre].push(i);
+  });
+  for (const [genre, indices] of Object.entries(fullGenreMap)) {
+    searchHTML += `<div class="section-header" style="margin-top:12px"><div class="section-title">${genre}</div></div>`;
+    searchHTML += `<div class="scroll-row">${indices.map(idx => showCard(idx, `${SHOWS[idx].eps} Episodes`)).join('')}</div>`;
+  }
+  searchGenres.innerHTML = searchHTML;
+
+  // ═══ MY LIST SCREEN ═══
+
+  // Saved — random 8 shows
+  const saved = shuffle(allIndices).slice(0, 8);
+  document.getElementById('mylist-saved').innerHTML = saved.map(idx => {
+    const status = idx % 3 === 0 ? 'In Progress' : 'Not Started';
+    return showCard(idx, status);
+  }).join('');
+
+  // Recommended — rest of the shows in grid
+  const savedSet = new Set(saved);
+  const recommended = allIndices.filter(i => !savedSet.has(i));
+  document.getElementById('mylist-recommended').innerHTML = recommended.map(idx =>
+    gridCard(idx, false)
+  ).join('');
+}
+
 // ── INIT ──
 document.addEventListener('DOMContentLoaded', () => {
+  // Populate all screens dynamically from SHOWS array
+  populateScreens();
+
   // Init hero carousel
   initHero();
 

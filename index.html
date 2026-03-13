@@ -57,82 +57,29 @@
     </div>
   </div>
 
-  <!-- Continue Watching -->
+  <!-- Continue Watching (dynamic) -->
   <div class="section-header">
     <div class="section-title">Continue Watching</div>
     <div class="section-more">See All ▸</div>
   </div>
-  <div class="scroll-row">
-    <div class="show-card" onclick="openPlayer(0,3)">
-      <div class="poster"><img src="assets/episode-1.png" alt="Fractured"></div>
-      <div class="card-title">Fractured</div>
-      <div class="card-meta">EP 4 · 8m left</div>
-    </div>
-    <div class="show-card" onclick="openPlayer(15,1)">
-      <div class="poster"><img src="assets/episode-3.png" alt="Glass Walls"></div>
-      <div class="card-title">Glass Walls</div>
-      <div class="card-meta">EP 2 · 12m left</div>
-    </div>
-    <div class="show-card" onclick="openPlayer(1,0)">
-      <div class="poster"><img src="assets/poster-the-algorithm.png" alt="The Algorithm"></div>
-      <div class="card-title">The Algorithm</div>
-      <div class="card-meta">EP 1 · New</div>
-    </div>
-  </div>
+  <div class="scroll-row" id="row-continue"></div>
 
-  <!-- Trending Now -->
+  <!-- Trending Now (dynamic) -->
   <div class="section-header">
     <div class="section-title">Trending Now</div>
     <div class="section-more">See All ▸</div>
   </div>
-  <div class="scroll-row">
-    <div class="show-card" onclick="openPlayer(4,0)"><div class="poster"><img src="assets/poster-neon-saints.png" alt="Neon Saints"></div><div class="card-title">Neon Saints</div><div class="card-meta">9 Episodes</div></div>
-    <div class="show-card" onclick="openPlayer(6,0)"><div class="poster"><img src="assets/poster-last-exit.png" alt="Last Exit"></div><div class="card-title">Last Exit</div><div class="card-meta">14 Episodes</div></div>
-    <div class="show-card" onclick="openPlayer(3,0)"><div class="poster"><img src="assets/poster-silk-thorns.png" alt="Silk & Thorns"></div><div class="card-title">Silk & Thorns</div><div class="card-meta">10 Episodes</div></div>
-    <div class="show-card" onclick="openPlayer(21,0)"><div class="poster"><img src="assets/poster-still-water.png" alt="Still Water"></div><div class="card-title">Still Water</div><div class="card-meta">8 Episodes</div></div>
-  </div>
+  <div class="scroll-row" id="row-trending"></div>
 
-  <!-- New Releases Grid -->
+  <!-- New Releases Grid (dynamic) -->
   <div class="section-header">
     <div class="section-title">New Releases</div>
     <div class="section-more">See All ▸</div>
   </div>
-  <div class="poster-grid">
-    <div class="grid-card" onclick="openPlayer(3,0)">
-      <img src="assets/episode-2.png" alt="Cold Trail">
-      <span class="new-badge">NEW</span>
-      <span class="ep-badge">8 EP</span>
-      <div class="grid-overlay">
-        <div class="grid-genre">Crime Drama</div>
-        <div class="grid-title">Cold Trail</div>
-      </div>
-    </div>
-    <div class="grid-card" onclick="openPlayer(21,0)">
-      <img src="assets/poster-still-water.png" alt="Still Water">
-      <span class="new-badge">NEW</span>
-      <span class="ep-badge">8 EP</span>
-      <div class="grid-overlay">
-        <div class="grid-genre">Mystery Drama</div>
-        <div class="grid-title">Still Water</div>
-      </div>
-    </div>
-    <div class="grid-card" onclick="openPlayer(1,0)">
-      <img src="assets/poster-the-algorithm.png" alt="The Algorithm">
-      <span class="ep-badge">6 EP</span>
-      <div class="grid-overlay">
-        <div class="grid-genre">Cyber Thriller</div>
-        <div class="grid-title">The Algorithm</div>
-      </div>
-    </div>
-    <div class="grid-card" onclick="openPlayer(16,0)">
-      <img src="assets/poster-silk-thorns.png" alt="Silk & Thorns">
-      <span class="ep-badge">10 EP</span>
-      <div class="grid-overlay">
-        <div class="grid-genre">Romantic Drama</div>
-        <div class="grid-title">Silk & Thorns</div>
-      </div>
-    </div>
-  </div>
+  <div class="poster-grid" id="grid-new-releases"></div>
+
+  <!-- Genre Rows (dynamic) -->
+  <div id="genre-rows-container"></div>
   <div class="spacer-lg"></div>
 </div>
 
@@ -206,54 +153,19 @@
     <div class="pill" onclick="selectPill(this)">Crime</div>
     <div class="pill" onclick="selectPill(this)">Romance</div>
     <div class="pill" onclick="selectPill(this)">Action</div>
-    <div class="pill" onclick="selectPill(this)">Mystery</div>
+    <div class="pill" onclick="selectPill(this)">Comedy</div>
+    <div class="pill" onclick="selectPill(this)">Horror</div>
     <div class="pill" onclick="selectPill(this)">Sci-Fi</div>
+    <div class="pill" onclick="selectPill(this)">Mystery</div>
+    <div class="pill" onclick="selectPill(this)">Fantasy</div>
+    <div class="pill" onclick="selectPill(this)">Anime</div>
+    <div class="pill" onclick="selectPill(this)">K-Drama</div>
   </div>
   <div class="section-header" style="margin-top:8px"><div class="section-title">🔥 Trending This Week</div></div>
-  <div class="trending-list">
-    <div class="trending-item" onclick="openPlayer(0,0)">
-      <div class="trending-rank">1</div>
-      <div class="trending-thumb"><img src="assets/episode-1.png" alt="Fractured"></div>
-      <div class="trending-info"><div class="t-title">Fractured</div><div class="t-meta">Psychological Thriller · 12 EP · ↑ 3 spots</div></div>
-      <div class="trending-fire">🔥</div>
-    </div>
-    <div class="trending-item" onclick="openPlayer(4,0)">
-      <div class="trending-rank">2</div>
-      <div class="trending-thumb"><img src="assets/poster-neon-saints.png" alt="Neon Saints"></div>
-      <div class="trending-info"><div class="t-title">Neon Saints</div><div class="t-meta">Crime Drama · 9 EP · New entry</div></div>
-      <div class="trending-fire">🔥</div>
-    </div>
-    <div class="trending-item" onclick="openPlayer(6,0)">
-      <div class="trending-rank">3</div>
-      <div class="trending-thumb"><img src="assets/poster-last-exit.png" alt="Last Exit"></div>
-      <div class="trending-info"><div class="t-title">Last Exit</div><div class="t-meta">Action Thriller · 14 EP · ↑ 1 spot</div></div>
-    </div>
-    <div class="trending-item" onclick="openPlayer(3,0)">
-      <div class="trending-rank">4</div>
-      <div class="trending-thumb"><img src="assets/episode-2.png" alt="Cold Trail"></div>
-      <div class="trending-info"><div class="t-title">Cold Trail</div><div class="t-meta">Crime Drama · 8 EP · ↓ 2 spots</div></div>
-    </div>
-    <div class="trending-item" onclick="openPlayer(1,0)">
-      <div class="trending-rank">5</div>
-      <div class="trending-thumb"><img src="assets/poster-the-algorithm.png" alt="The Algorithm"></div>
-      <div class="trending-info"><div class="t-title">The Algorithm</div><div class="t-meta">Cyber Thriller · 6 EP · New entry</div></div>
-    </div>
-    <div class="trending-item" onclick="openPlayer(21,0)">
-      <div class="trending-rank">6</div>
-      <div class="trending-thumb"><img src="assets/poster-still-water.png" alt="Still Water"></div>
-      <div class="trending-info"><div class="t-title">Still Water</div><div class="t-meta">Mystery Drama · 8 EP</div></div>
-    </div>
-    <div class="trending-item" onclick="openPlayer(16,0)">
-      <div class="trending-rank">7</div>
-      <div class="trending-thumb"><img src="assets/poster-silk-thorns.png" alt="Silk & Thorns"></div>
-      <div class="trending-info"><div class="t-title">Silk & Thorns</div><div class="t-meta">Romantic Drama · 10 EP</div></div>
-    </div>
-    <div class="trending-item" onclick="openPlayer(15,0)">
-      <div class="trending-rank">8</div>
-      <div class="trending-thumb"><img src="assets/episode-3.png" alt="Glass Walls"></div>
-      <div class="trending-info"><div class="t-title">Glass Walls</div><div class="t-meta">Romance Thriller · 16 EP</div></div>
-    </div>
-  </div>
+  <div class="trending-list" id="trending-list"></div>
+
+  <!-- All Shows by Genre (dynamic) -->
+  <div id="search-genre-sections"></div>
   <div class="spacer-lg"></div>
 </div>
 
@@ -265,16 +177,9 @@
     <div class="mylist-tab" onclick="selectListTab(this)">Watched</div>
     <div class="mylist-tab" onclick="selectListTab(this)">Downloads</div>
   </div>
-  <div class="scroll-row">
-    <div class="show-card" onclick="openPlayer(0,3)"><div class="poster"><img src="assets/episode-1.png" alt="Fractured"></div><div class="card-title">Fractured</div><div class="card-meta">EP 4 · In Progress</div></div>
-    <div class="show-card" onclick="openPlayer(6,0)"><div class="poster"><img src="assets/poster-neon-saints.png" alt="Neon Saints"></div><div class="card-title">Neon Saints</div><div class="card-meta">Not Started</div></div>
-    <div class="show-card" onclick="openPlayer(1,0)"><div class="poster"><img src="assets/poster-the-algorithm.png" alt="The Algorithm"></div><div class="card-title">The Algorithm</div><div class="card-meta">Not Started</div></div>
-  </div>
+  <div class="scroll-row" id="mylist-saved"></div>
   <div class="section-header"><div class="section-title">Recommended For You</div></div>
-  <div class="poster-grid">
-    <div class="grid-card" onclick="openPlayer(6,0)"><img src="assets/poster-last-exit.png" alt="Last Exit"><span class="ep-badge">14 EP</span><div class="grid-overlay"><div class="grid-genre">Action Thriller</div><div class="grid-title">Last Exit</div></div></div>
-    <div class="grid-card" onclick="openPlayer(21,0)"><img src="assets/poster-still-water.png" alt="Still Water"><span class="ep-badge">8 EP</span><div class="grid-overlay"><div class="grid-genre">Mystery Drama</div><div class="grid-title">Still Water</div></div></div>
-  </div>
+  <div class="poster-grid" id="mylist-recommended"></div>
   <div class="spacer-lg"></div>
 </div>
 

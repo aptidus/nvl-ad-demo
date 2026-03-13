@@ -877,62 +877,105 @@ html, body {
 }
 .ad-banner .banner-close:active { background: rgba(0,0,0,.1); }
 
-/* Title Sponsorship Outro */
+/* Title Sponsorship Outro — cinematic overlay that merges with video */
 .ad-outro {
   position: fixed; inset: 0;
-  background: rgba(242,240,237,.85);
-  backdrop-filter: blur(50px) saturate(1.5);
-  -webkit-backdrop-filter: blur(50px) saturate(1.5);
+  background: linear-gradient(
+    180deg,
+    rgba(0,0,0,.15) 0%,
+    rgba(0,0,0,.55) 35%,
+    rgba(0,0,0,.80) 65%,
+    rgba(0,0,0,.92) 100%
+  );
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   z-index: 200;
   display: flex; flex-direction: column;
   align-items: center; justify-content: center;
   text-align: center;
   opacity: 0; pointer-events: none;
-  transition: opacity .5s;
+  transition: opacity 1.2s cubic-bezier(.4,0,.2,1);
 }
 .ad-outro.active { opacity: 1; pointer-events: auto; }
+.ad-outro.fade-out {
+  opacity: 0;
+  transition: opacity 0.8s cubic-bezier(.4,0,.2,1);
+}
+
+/* Staggered child animations */
+@keyframes outroFadeUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.ad-outro .outro-presented,
+.ad-outro .outro-brand,
+.ad-outro .outro-next-label,
+.ad-outro .outro-next-title,
+.ad-outro .outro-countdown {
+  opacity: 0;
+}
+.ad-outro.active .outro-presented {
+  animation: outroFadeUp .8s cubic-bezier(.4,0,.2,1) .4s forwards;
+}
+.ad-outro.active .outro-brand {
+  animation: outroFadeUp .9s cubic-bezier(.4,0,.2,1) .8s forwards;
+}
+.ad-outro.active .outro-next-label {
+  animation: outroFadeUp .7s cubic-bezier(.4,0,.2,1) 1.4s forwards;
+}
+.ad-outro.active .outro-next-title {
+  animation: outroFadeUp .7s cubic-bezier(.4,0,.2,1) 1.6s forwards;
+}
+.ad-outro.active .outro-countdown {
+  animation: outroFadeUp .6s cubic-bezier(.4,0,.2,1) 2.0s forwards;
+}
+
 .ad-outro .outro-presented {
-  font-size: 8px; font-weight: 400;
-  letter-spacing: 4px; text-transform: uppercase;
-  color: rgba(0,0,0,.25); margin-bottom: 24px;
+  font-size: 9px; font-weight: 400;
+  letter-spacing: 5px; text-transform: uppercase;
+  color: rgba(255,255,255,.35); margin-bottom: 20px;
 }
 .ad-outro .outro-brand {
-  font-size: 42px; font-weight: 200;
-  letter-spacing: 16px; text-transform: uppercase;
+  font-size: 38px; font-weight: 200;
+  letter-spacing: 14px; text-transform: uppercase;
   margin-bottom: 48px;
-  color: rgba(0,0,0,.65);
+  color: rgba(255,255,255,.85);
+  text-shadow: 0 0 40px rgba(255,255,255,.12);
 }
 .ad-outro .outro-next-label {
-  font-size: 8px; color: rgba(0,0,0,.25);
+  font-size: 8px; color: rgba(255,255,255,.25);
   letter-spacing: 3px; text-transform: uppercase;
   margin-bottom: 8px; font-weight: 400;
 }
 .ad-outro .outro-next-title {
   font-size: 14px; font-weight: 300;
   letter-spacing: 1px;
-  margin-bottom: 20px;
-  color: rgba(0,0,0,.6);
+  margin-bottom: 24px;
+  color: rgba(255,255,255,.55);
 }
 .ad-outro .outro-countdown {
   width: 44px; height: 44px;
   border-radius: 50%;
-  border: 0.5px solid rgba(0,0,0,.15);
+  border: 0.5px solid rgba(255,255,255,.15);
   display: flex; align-items: center; justify-content: center;
   font-size: 16px; font-weight: 200;
-  color: rgba(0,0,0,.4);
+  color: rgba(255,255,255,.45);
   letter-spacing: 1px;
 }
 .ad-outro .outro-close {
   position: absolute; top: 16px; right: 16px;
-  background: rgba(0,0,0,.05);
-  border: 0.5px solid rgba(0,0,0,.08);
-  color: rgba(0,0,0,.4);
+  background: rgba(255,255,255,.06);
+  border: 0.5px solid rgba(255,255,255,.1);
+  color: rgba(255,255,255,.4);
   width: 32px; height: 32px;
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   cursor: pointer; font-size: 16px;
+  opacity: 0;
+  transition: opacity .5s .6s;
 }
-.ad-outro .outro-close:active { background: rgba(0,0,0,.1); }
+.ad-outro.active .outro-close { opacity: 1; }
+.ad-outro .outro-close:active { background: rgba(255,255,255,.12); }
 
 /* ── AD FORMAT DEMO PANEL ── */
 .demo-fab {
