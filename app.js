@@ -82,21 +82,103 @@ function getPaletteForShow(show) {
   return GENRE_PALETTES['thriller'];
 }
 
-// Canvas-rendered "video" for each show
+// ── Real Video Playback with canvas fallback ──
 let animCanvas, animCtx, animFrame, animStart;
+let usingRealVideo = false;  // tracks whether we're playing a real .mp4
+const EPISODE_DURATION = 30; // each "episode" viewing is 30 seconds (video loops)
 
 function playCurrentVideo() {
   const video = document.getElementById('main-video');
   const poster = document.getElementById('poster-fallback');
   const show = SHOWS[currentShowIndex];
   const palette = getPaletteForShow(show);
+  const container = document.querySelector('.player-container');
 
-  // Hide the <video> element, we'll use a canvas overlay instead
-  video.style.display = 'none';
+  // Stop any previous canvas animation
+  cancelAnimationFrame(animFrame);
+  videoPlaying = true;
+  usingRealVideo = false;
+
+  // Try loading real Veo video first
+  const videoSrc = `videos/${show.id}.mp4`;
+  video.src = videoSrc;
+  video.loop = true;   // 8-sec clips loop within the episode
+  video.muted = true;
+  video.playsInline = true;
+  video.style.display = 'block';
+  video.style.position = 'absolute';
+  video.style.top = '0';
+  video.style.left = '0';
+  video.style.width = '100%';
+  video.style.height = '100%';
+  video.style.objectFit = 'cover';
+  video.style.zIndex = '0';
   poster.style.display = 'none';
 
-  // Create or reuse canvas
-  const container = document.querySelector('.player-container');
+  // Hide canvas while trying real video
+  if (animCanvas) animCanvas.style.display = 'none';
+
+  // Attempt to play the real video
+  const playPromise = video.play();
+  if (playPromise !== undefined) {
+    playPromise.then(() => {
+      // Real video is playing!
+      usingRealVideo = true;
+      startEpisodeTimer();
+    }).catch(() => {
+      // Video failed to load — fall back to canvas animation
+      video.style.display = 'none';
+      fallbackCanvasPlay(container, palette);
+    });
+  }
+
+  // Also handle the case where video source doesn't exist
+  video.onerror = () => {
+    if (!usingRealVideo) {
+      video.style.display = 'none';
+      fallbackCanvasPlay(container, palette);
+    }
+  };
+
+  scheduleBanner();
+}
+
+// Episode timer for real video (tracks progress for EPISODE_DURATION seconds)
+let episodeTimer = null;
+let episodeStart = 0;
+
+function startEpisodeTimer() {
+  episodeStart = performance.now();
+  cancelAnimationFrame(animFrame);
+
+  function tick() {
+    if (!videoPlaying || !usingRealVideo) return;
+    const elapsed = (performance.now() - episodeStart) / 1000;
+    const progress = Math.min(elapsed / EPISODE_DURATION, 1);
+
+    const fill = document.getElementById('progress-fill');
+    if (fill) fill.style.width = (progress * 100) + '%';
+    const timeCurrent = document.getElementById('time-current');
+    const timeTotal = document.getElementById('time-total');
+    if (timeCurrent) timeCurrent.textContent = formatTime(elapsed);
+    if (timeTotal) timeTotal.textContent = formatTime(EPISODE_DURATION);
+
+    if (elapsed >= EPISODE_DURATION) {
+      videoPlaying = false;
+      const vid = document.getElementById('main-video');
+      vid.pause();
+      nextEpisode();
+      return;
+    }
+    animFrame = requestAnimationFrame(tick);
+  }
+  animFrame = requestAnimationFrame(tick);
+}
+
+// Canvas fallback (original animated background)
+function fallbackCanvasPlay(container, palette) {
+  usingRealVideo = false;
+
   if (!animCanvas) {
     animCanvas = document.createElement('canvas');
     animCanvas.id = 'anim-canvas';
@@ -108,7 +190,6 @@ function playCurrentVideo() {
   animCanvas.style.display = 'block';
   animCtx = animCanvas.getContext('2d');
 
-  // Particle system unique per show
   const seed = currentShowIndex * 137;
   const particles = Array.from({length: 60}, (_, i) => ({
     x: ((seed + i * 73) % 100) / 100,
@@ -121,14 +202,12 @@ function playCurrentVideo() {
 
   cancelAnimationFrame(animFrame);
   animStart = performance.now();
-  videoPlaying = true;
 
   function renderFrame(ts) {
     const elapsed = (ts - animStart) / 1000;
     const w = animCanvas.width, h = animCanvas.height;
     const ctx = animCtx;
 
-    // Background gradient (shifts over time)
     const grad = ctx.createLinearGradient(0, 0, w * Math.sin(elapsed * 0.3), h);
     grad.addColorStop(0, palette[0]);
     grad.addColorStop(0.5, palette[1]);
@@ -136,7 +215,6 @@ function playCurrentVideo() {
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, w, h);
 
-    // Animated bokeh circles
     particles.forEach(p => {
       p.x += p.vx + Math.sin(elapsed * 2 + p.r) * 0.0003;
       p.y += p.vy + Math.cos(elapsed * 1.5 + p.r) * 0.0003;
@@ -152,21 +230,18 @@ function playCurrentVideo() {
       ctx.fillRect(px - p.r * 8, py - p.r * 8, p.r * 16, p.r * 16);
     });
 
-    // Subtle scan lines
     ctx.fillStyle = 'rgba(0,0,0,0.06)';
     for (let y = 0; y < h; y += 4) {
       ctx.fillRect(0, y, w, 1);
     }
 
-    // Vignette
     const vg = ctx.createRadialGradient(w/2, h/2, w * 0.25, w/2, h/2, w * 0.7);
     vg.addColorStop(0, 'transparent');
     vg.addColorStop(1, 'rgba(0,0,0,0.6)');
     ctx.fillStyle = vg;
     ctx.fillRect(0, 0, w, h);
 
-    // Update progress bar
-    const duration = 10; // 10-second "video"
+    const duration = EPISODE_DURATION;
     const progress = Math.min(elapsed / duration, 1);
     const fill = document.getElementById('progress-fill');
     if (fill) fill.style.width = (progress * 100) + '%';
@@ -178,14 +253,12 @@ function playCurrentVideo() {
     if (elapsed < duration && videoPlaying) {
       animFrame = requestAnimationFrame(renderFrame);
     } else if (elapsed >= duration) {
-      // Episode ended — advance to next
       videoPlaying = false;
       nextEpisode();
     }
   }
 
   animFrame = requestAnimationFrame(renderFrame);
-  scheduleBanner();
 }
 
 function formatTime(s) {
@@ -309,18 +382,31 @@ function pauseVideo() {
   cancelAnimationFrame(animFrame);
   videoPlaying = false;
   clearTimeout(bannerTimeout);
+  // Also pause the real <video> if playing
+  const video = document.getElementById('main-video');
+  if (video && !video.paused) video.pause();
 }
 
 function togglePlay() {
   const playBtn = document.getElementById('play-center');
+  const video = document.getElementById('main-video');
+
   if (videoPlaying) {
+    // Pause
     cancelAnimationFrame(animFrame);
     videoPlaying = false;
+    if (usingRealVideo && video && !video.paused) video.pause();
     playBtn.textContent = '▶';
   } else {
+    // Resume
     videoPlaying = true;
-    animStart = performance.now() - (animStart ? (performance.now() - animStart) : 0);
-    playCurrentVideo();
+    if (usingRealVideo) {
+      video.play();
+      startEpisodeTimer();
+    } else {
+      animStart = performance.now() - (animStart ? (performance.now() - animStart) : 0);
+      playCurrentVideo();
+    }
     playBtn.textContent = '⏸';
   }
   playBtn.classList.add('show');
