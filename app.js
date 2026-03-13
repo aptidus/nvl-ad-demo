@@ -754,45 +754,54 @@ function populateScreens() {
     return `<div class="section-header"><div class="section-title">${title}</div><div class="section-more">See All ▸</div></div><div class="scroll-row">${html}</div>`;
   }
 
-  // — Shuffle helper (deterministic-ish for variety) —
-  function shuffle(arr) {
+  // — Seeded shuffle (different seed = different order) —
+  function shuffle(arr, seed) {
     const a = [...arr];
+    let s = seed || 1;
+    function rng() { s = (s * 1664525 + 1013904223) & 0xffffffff; return (s >>> 0) / 0xffffffff; }
     for (let i = a.length - 1; i > 0; i--) {
-      const j = (i * 7 + 3) % (i + 1);
+      const j = Math.floor(rng() * (i + 1));
       [a[i], a[j]] = [a[j], a[i]];
     }
     return a;
   }
 
   const allIndices = SHOWS.map((_, i) => i);
+  const used = new Set(); // track used indices so sections don't repeat
+
+  function pickUnique(seed, count) {
+    const pool = shuffle(allIndices.filter(i => !used.has(i)), seed);
+    const picked = pool.slice(0, Math.min(count, pool.length));
+    picked.forEach(i => used.add(i));
+    return picked;
+  }
 
   // ═══ HOME SCREEN ═══
 
-  // Continue Watching — pick 6 random shows with simulated progress
-  const continueWatching = shuffle(allIndices).slice(0, 6);
+  // Continue Watching — 6 shows with simulated progress
+  const continueWatching = pickUnique(42, 6);
   document.getElementById('row-continue').innerHTML = continueWatching.map(idx => {
     const ep = 1 + (idx * 3) % SHOWS[idx].eps;
     const mins = 2 + (idx * 7) % 15;
     return showCard(idx, `EP ${ep} · ${mins}m left`);
   }).join('');
 
-  // Trending Now — pick 8 different shows
-  const trending = shuffle(allIndices).slice(0, 8);
+  // Trending Now — 8 different shows (no overlap with Continue Watching)
+  const trending = pickUnique(137, 8);
   document.getElementById('row-trending').innerHTML = trending.map(idx =>
     showCard(idx, `${SHOWS[idx].eps} Episodes`)
   ).join('');
 
-  // New Releases Grid — pick 8 more
-  const newReleases = shuffle(allIndices).slice(0, 8);
-  document.getElementById('grid-new-releases').innerHTML = newReleases.map(idx =>
-    gridCard(idx, Math.random() > 0.4)
+  // New Releases Grid — 8 more (no overlap with above)
+  const newReleases = pickUnique(293, 8);
+  document.getElementById('grid-new-releases').innerHTML = newReleases.map((idx, i) =>
+    gridCard(idx, i < 4) // first 4 get NEW badge
   ).join('');
 
-  // Genre-based rows — group shows by broad genre, create a scroll row for each
+  // Genre-based rows — remaining shows grouped by broad genre
   const genreGroups = {};
   SHOWS.forEach((s, i) => {
-    // Broad genre extraction
-    const g = s.genre.split(/\s+/)[0]; // first word: "Crime", "Action", "Romantic", etc.
+    const g = s.genre.split(/\s+/)[0];
     const key = g.replace(/[^a-zA-Z]/g, '');
     if (!genreGroups[key]) genreGroups[key] = [];
     genreGroups[key].push(i);
@@ -800,18 +809,17 @@ function populateScreens() {
   const genreContainer = document.getElementById('genre-rows-container');
   let genreHTML = '';
   for (const [genre, indices] of Object.entries(genreGroups)) {
-    if (indices.length < 2) continue; // skip single-show genres on home
+    if (indices.length < 2) continue;
     const label = genre.charAt(0).toUpperCase() + genre.slice(1);
-    genreHTML += scrollRowSection(label, indices.map(idx => showCard(idx, `${SHOWS[idx].eps} Episodes`)).join(''));
+    genreHTML += `<div class="section-header" style="margin-top:20px"><div class="section-title">${label}</div><div class="section-more">See All ▸</div></div><div class="scroll-row">${indices.map(idx => showCard(idx, `${SHOWS[idx].eps} Episodes`)).join('')}</div>`;
   }
   genreContainer.innerHTML = genreHTML;
 
   // ═══ SEARCH / DISCOVER SCREEN ═══
 
-  // Trending list — all shows ranked
+  // Trending list — all shows, shuffled for ranking
   const trendingList = document.getElementById('trending-list');
-  // Show top 15 in trending
-  const trendingOrder = shuffle(allIndices).slice(0, 15);
+  const trendingOrder = shuffle(allIndices, 777).slice(0, 15);
   trendingList.innerHTML = trendingOrder.map((idx, rank) =>
     trendingItem(idx, rank + 1)
   ).join('');
@@ -819,30 +827,29 @@ function populateScreens() {
   // Genre sections below trending on search screen
   const searchGenres = document.getElementById('search-genre-sections');
   let searchHTML = '';
-  // Full genre map for search (more granular)
   const fullGenreMap = {};
   SHOWS.forEach((s, i) => {
     if (!fullGenreMap[s.genre]) fullGenreMap[s.genre] = [];
     fullGenreMap[s.genre].push(i);
   });
   for (const [genre, indices] of Object.entries(fullGenreMap)) {
-    searchHTML += `<div class="section-header" style="margin-top:12px"><div class="section-title">${genre}</div></div>`;
+    searchHTML += `<div class="section-header" style="margin-top:16px"><div class="section-title">${genre}</div></div>`;
     searchHTML += `<div class="scroll-row">${indices.map(idx => showCard(idx, `${SHOWS[idx].eps} Episodes`)).join('')}</div>`;
   }
   searchGenres.innerHTML = searchHTML;
 
   // ═══ MY LIST SCREEN ═══
 
-  // Saved — random 8 shows
-  const saved = shuffle(allIndices).slice(0, 8);
-  document.getElementById('mylist-saved').innerHTML = saved.map(idx => {
-    const status = idx % 3 === 0 ? 'In Progress' : 'Not Started';
-    return showCard(idx, status);
+  // Saved — 8 shows (different seed from home sections)
+  const saved = shuffle(allIndices, 519).slice(0, 8);
+  document.getElementById('mylist-saved').innerHTML = saved.map((idx, i) => {
+    const statuses = ['EP 4 · In Progress', 'EP 2 · 12m left', 'Not Started', 'EP 7 · In Progress', 'Not Started', 'EP 1 · Just Started', 'EP 3 · 5m left', 'Not Started'];
+    return showCard(idx, statuses[i % statuses.length]);
   }).join('');
 
-  // Recommended — rest of the shows in grid
+  // Recommended — remaining shows in grid
   const savedSet = new Set(saved);
-  const recommended = allIndices.filter(i => !savedSet.has(i));
+  const recommended = shuffle(allIndices.filter(i => !savedSet.has(i)), 631);
   document.getElementById('mylist-recommended').innerHTML = recommended.map(idx =>
     gridCard(idx, false)
   ).join('');
