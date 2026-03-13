@@ -55,6 +55,24 @@ const SHOWS = [
 
   // ── True Crime ──
   { id: 'the-confession-tapes', title: 'The Confession Tapes', genre: 'True Crime', eps: 8, poster: 'assets/episode-2.png', desc: 'Interrogation footage from the most controversial confessions of the decade. Were they telling the truth?' },
+
+  // ── Medical Drama ──
+  { id: 'code-blue', title: 'Code Blue', genre: 'Medical Drama', eps: 10, poster: 'assets/episode-3.png', desc: 'A trauma surgeon operates on the city\'s most dangerous patients by night—while hiding a secret that could end her career.' },
+
+  // ── Survival ──
+  { id: 'thin-ice', title: 'Thin Ice', genre: 'Survival Thriller', eps: 8, poster: 'assets/poster-last-exit.png', desc: 'Six strangers crash-land on an Arctic ice sheet. Rescue is 48 hours away. The ice is breaking faster than expected.' },
+
+  // ── Heist ──
+  { id: 'vault-9', title: 'Vault 9', genre: 'Heist', eps: 6, poster: 'assets/poster-neon-saints.png', desc: 'A retired safecracker is pulled back for one impossible job—a vault nine stories underground with no blueprints.' },
+
+  // ── Anthology ──
+  { id: 'parallel-lives', title: 'Parallel Lives', genre: 'Anthology', eps: 12, poster: 'assets/poster-the-algorithm.png', desc: 'Each episode follows a different person at the exact same crossroads. One choice. Infinite consequences.' },
+
+  // ── Sports Drama ──
+  { id: 'breakaway', title: 'Breakaway', genre: 'Sports Drama', eps: 10, poster: 'assets/poster-still-water.png', desc: 'A disgraced Olympic cyclist returns to competition after a doping scandal—this time clean, this time with everything to prove.' },
+
+  // ── Limited Series ──
+  { id: 'the-architect', title: 'The Architect', genre: 'Limited Series', eps: 6, poster: 'assets/episode-1.png', desc: 'A grieving architect designs a memorial for the disaster that killed his family. Each floor reveals a buried truth.' },
 ];
 
 // Color palettes per genre for canvas-generated visuals
@@ -72,6 +90,12 @@ const GENRE_PALETTES = {
   'anime':      ['#0a0a2e','#1a0a3e','#ff4081','#7c4dff'],
   'k-drama':    ['#1a0a1e','#2d0a3e','#ff6b9d','#a78bfa'],
   'true crime': ['#0f0f0f','#1a1a1a','#dc2626','#fbbf24'],
+  'medical':    ['#0a1a2e','#0f3460','#00bcd4','#e0f7fa'],
+  'survival':   ['#0a1a1a','#1a3a2a','#4caf50','#b0bec5'],
+  'heist':      ['#1a1a0a','#3e2d0a','#ffd700','#ff9800'],
+  'anthology':  ['#1a0a2e','#2d1b4e','#ab47bc','#e1bee7'],
+  'sports':     ['#0a1a0a','#1b5e20','#76ff03','#ffffff'],
+  'limited':    ['#1a1a2e','#2c3e50','#e74c3c','#ecf0f1'],
 };
 
 function getPaletteForShow(show) {
