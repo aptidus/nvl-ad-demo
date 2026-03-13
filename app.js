@@ -1,26 +1,200 @@
 // ── NVL Demo App ──
 
-// Shows data
+// 30-title media library spanning Netflix-style genres
 const SHOWS = [
+  // ── Thriller / Psychological ──
   { id: 'fractured', title: 'Fractured', genre: 'Psychological Thriller', eps: 12, poster: 'assets/episode-1.png', desc: 'A detective unravels her own past while chasing a serial case that mirrors her childhood trauma.' },
+  { id: 'algorithm', title: 'The Algorithm', genre: 'Cyber Thriller', eps: 6, poster: 'assets/poster-the-algorithm.png', desc: 'A programmer discovers the AI she built has been watching her back—predicting her every move before she makes it.' },
+  { id: 'blindspot', title: 'Blindspot', genre: 'Thriller', eps: 8, poster: 'assets/episode-2.png', desc: 'A neurosurgeon loses her sight in a car accident—and starts seeing visions of crimes before they happen.' },
+
+  // ── Crime / Drama ──
   { id: 'cold-trail', title: 'Cold Trail', genre: 'Crime Drama', eps: 8, poster: 'assets/episode-2.png', desc: 'When evidence resurfaces from a decade-old disappearance, a retired investigator must confront the case that ended his career.' },
+  { id: 'neon-saints', title: 'Neon Saints', genre: 'Crime Drama', eps: 9, poster: 'assets/poster-neon-saints.png', desc: 'Three strangers converge on a neon-lit nightclub where allegiances shift and the midnight saints decide who lives.' },
+  { id: 'the-wire-city', title: 'Wire City', genre: 'Crime', eps: 10, poster: 'assets/poster-neon-saints.png', desc: 'An undercover cop infiltrates a cybercrime ring operating from the rooftops of a megacity. One wrong packet and it\'s over.' },
+
+  // ── Action / Adventure ──
+  { id: 'last-exit', title: 'Last Exit', genre: 'Action Thriller', eps: 14, poster: 'assets/poster-last-exit.png', desc: 'Sometimes the only way out is straight through. A man on the run battles his way across the desert.' },
+  { id: 'warpath', title: 'Warpath', genre: 'Action', eps: 10, poster: 'assets/poster-last-exit.png', desc: 'A disgraced MMA fighter is recruited by a covert ops unit. The octagon was child\'s play compared to this.' },
+  { id: 'extraction-zero', title: 'Extraction Zero', genre: 'Action Adventure', eps: 8, poster: 'assets/episode-3.png', desc: 'Deep in the Amazon, a rescue team discovers the hostage they came for doesn\'t want to be saved.' },
+
+  // ── Comedy ──
+  { id: 'hot-mess', title: 'Hot Mess', genre: 'Comedy', eps: 12, poster: 'assets/poster-silk-thorns.png', desc: 'A celebrity chef\'s restaurant burns down on live TV. Now she runs a taco truck and somehow it\'s thriving.' },
+  { id: 'coworking', title: 'Co//Working', genre: 'Workplace Comedy', eps: 10, poster: 'assets/poster-the-algorithm.png', desc: 'Five remote workers share a coworking space. None of them can agree on the thermostat, the music, or reality.' },
+  { id: 'family-algo', title: 'The Family Algorithm', genre: 'Comedy Drama', eps: 8, poster: 'assets/poster-still-water.png', desc: 'A data scientist tries to optimize her dysfunctional family using behavioral algorithms. It backfires spectacularly.' },
+
+  // ── Horror ──
+  { id: 'the-hallowing', title: 'The Hallowing', genre: 'Horror', eps: 6, poster: 'assets/episode-1.png', desc: 'Every Halloween, the residents of Hollow Creek celebrate an ancient festival. This year, the masks come alive.' },
+  { id: 'below-the-floor', title: 'Below the Floor', genre: 'Horror Thriller', eps: 8, poster: 'assets/episode-2.png', desc: 'A family moves into their dream home. Then they discover why the previous owners cemented the basement shut.' },
+  { id: 'sleep-watchers', title: 'Sleep Watchers', genre: 'Supernatural Horror', eps: 10, poster: 'assets/poster-still-water.png', desc: 'Insomniacs in a sleep clinic start sharing the same nightmare. The thing in the dream knows their names.' },
+
+  // ── Romance / Romantic Drama ──
   { id: 'glass-walls', title: 'Glass Walls', genre: 'Romance Thriller', eps: 16, poster: 'assets/episode-3.png', desc: 'A corporate whistleblower falls for the attorney prosecuting her former employer. Trust becomes currency.' },
   { id: 'silk-thorns', title: 'Silk & Thorns', genre: 'Romantic Drama', eps: 10, poster: 'assets/poster-silk-thorns.png', desc: 'Love grows in the darkest shadows. Two strangers meet in a rain-soaked alley and change each other forever.' },
-  { id: 'algorithm', title: 'The Algorithm', genre: 'Cyber Thriller', eps: 6, poster: 'assets/poster-the-algorithm.png', desc: 'A programmer discovers the AI she built has been watching her back—predicting her every move before she makes it.' },
-  { id: 'last-exit', title: 'Last Exit', genre: 'Action Thriller', eps: 14, poster: 'assets/poster-last-exit.png', desc: 'Sometimes the only way out is straight through. A man on the run battles his way across the desert.' },
-  { id: 'neon-saints', title: 'Neon Saints', genre: 'Crime Drama', eps: 9, poster: 'assets/poster-neon-saints.png', desc: 'Three strangers converge on a neon-lit nightclub where allegiances shift and the midnight saints decide who lives.' },
-  { id: 'still-water', title: 'Still Water', genre: 'Mystery Drama', eps: 8, poster: 'assets/poster-still-water.png', desc: 'A woman returns to her lakeside hometown after 15 years to find the truth her family buried beneath the surface.' }
+  { id: 'paris-rewind', title: 'Paris Rewind', genre: 'Romance', eps: 8, poster: 'assets/poster-silk-thorns.png', desc: 'A time loop traps two strangers in a single perfect day in Paris. Every reset, they remember more—and fall harder.' },
+
+  // ── Sci-Fi ──
+  { id: 'arc-seven', title: 'Arc Seven', genre: 'Sci-Fi', eps: 10, poster: 'assets/poster-the-algorithm.png', desc: 'Humanity\'s last colony ship receives a signal from Earth: "We\'re alive. Don\'t come back." The crew splits.' },
+  { id: 'echo-state', title: 'Echo State', genre: 'Sci-Fi Thriller', eps: 8, poster: 'assets/episode-1.png', desc: 'Consciousness can be backed up. But when a woman wakes in a body she doesn\'t recognize, she questions who she really is.' },
+  { id: 'terraform', title: 'Terraform', genre: 'Sci-Fi Drama', eps: 12, poster: 'assets/poster-neon-saints.png', desc: 'Mars colonists face a moral crisis when the terraforming process awakens something already living in the soil.' },
+
+  // ── Mystery / Suspense ──
+  { id: 'still-water', title: 'Still Water', genre: 'Mystery Drama', eps: 8, poster: 'assets/poster-still-water.png', desc: 'A woman returns to her lakeside hometown after 15 years to find the truth her family buried beneath the surface.' },
+  { id: 'the-vanishing', title: 'The Vanishing', genre: 'Mystery', eps: 6, poster: 'assets/episode-3.png', desc: 'A small island\'s entire fishing fleet disappears overnight. The boats wash ashore a week later—empty and locked from the inside.' },
+
+  // ── Documentary ──
+  { id: 'inside-the-machine', title: 'Inside the Machine', genre: 'Documentary', eps: 6, poster: 'assets/poster-the-algorithm.png', desc: 'How a team of 12 engineers at a startup built an AI that passed the bar exam—and what happened next.' },
+  { id: 'the-last-glacier', title: 'The Last Glacier', genre: 'Documentary', eps: 4, poster: 'assets/poster-still-water.png', desc: 'Climate scientists race to document Earth\'s fastest-melting glacier before it vanishes forever.' },
+
+  // ── Fantasy / Anime ──
+  { id: 'shadow-court', title: 'Shadow Court', genre: 'Dark Fantasy', eps: 12, poster: 'assets/poster-neon-saints.png', desc: 'A disgraced knight discovers she\'s the heir to a fallen kingdom that exists between the cracks of reality.' },
+  { id: 'spirit-engine', title: 'Spirit Engine', genre: 'Anime', eps: 24, poster: 'assets/poster-last-exit.png', desc: 'In a world where souls power machines, a mechanic discovers her dead brother\'s spirit has been trapped inside her motorcycle.' },
+
+  // ── K-Drama / International ──
+  { id: 'seoul-midnight', title: 'Seoul Midnight', genre: 'K-Drama', eps: 16, poster: 'assets/poster-silk-thorns.png', desc: 'A K-pop trainee and a street food vendor cross paths at midnight. Their worlds shouldn\'t mix—but Seoul has other plans.' },
+  { id: 'the-exchange', title: 'The Exchange', genre: 'K-Drama Thriller', eps: 12, poster: 'assets/episode-1.png', desc: 'Two rival stock traders are forced to share a trading desk. The market is volatile; so is their chemistry.' },
+
+  // ── True Crime ──
+  { id: 'the-confession-tapes', title: 'The Confession Tapes', genre: 'True Crime', eps: 8, poster: 'assets/episode-2.png', desc: 'Interrogation footage from the most controversial confessions of the decade. Were they telling the truth?' },
 ];
 
-const VIDEOS = [
-  'https://videos.pexels.com/video-files/3571264/3571264-uhd_1440_2560_30fps.mp4',
-  'https://videos.pexels.com/video-files/4763824/4763824-uhd_1440_2560_24fps.mp4',
-  'https://videos.pexels.com/video-files/3195394/3195394-uhd_1440_2560_25fps.mp4'
-];
+// Color palettes per genre for canvas-generated visuals
+const GENRE_PALETTES = {
+  'thriller':   ['#1a0a2e','#16213e','#e94560','#533483'],
+  'crime':      ['#0f0f0f','#1a1a2e','#e94560','#0f3460'],
+  'action':     ['#2d0000','#5c0000','#ff6b35','#f7c59f'],
+  'comedy':     ['#1b0a2a','#6c2eb9','#ffd700','#ff69b4'],
+  'horror':     ['#0d0d0d','#1a0000','#8b0000','#2d1b2e'],
+  'romance':    ['#1a0a1e','#4a0e2b','#ff6b9d','#c084fc'],
+  'sci-fi':     ['#0a0a2e','#0f3460','#00d4ff','#7b2ff7'],
+  'mystery':    ['#0a1a2a','#1a3a4a','#4ecdc4','#2c3e50'],
+  'documentary':['#1a1a1a','#2d2d2d','#f39c12','#ecf0f1'],
+  'fantasy':    ['#0a0a2e','#2d1b69','#9b59b6','#e8d5b7'],
+  'anime':      ['#0a0a2e','#1a0a3e','#ff4081','#7c4dff'],
+  'k-drama':    ['#1a0a1e','#2d0a3e','#ff6b9d','#a78bfa'],
+  'true crime': ['#0f0f0f','#1a1a1a','#dc2626','#fbbf24'],
+};
+
+function getPaletteForShow(show) {
+  const g = (show.genre || '').toLowerCase();
+  for (const [key, pal] of Object.entries(GENRE_PALETTES)) {
+    if (g.includes(key)) return pal;
+  }
+  return GENRE_PALETTES['thriller'];
+}
+
+// Canvas-rendered "video" for each show
+let animCanvas, animCtx, animFrame, animStart;
+
+function playCurrentVideo() {
+  const video = document.getElementById('main-video');
+  const poster = document.getElementById('poster-fallback');
+  const show = SHOWS[currentShowIndex];
+  const palette = getPaletteForShow(show);
+
+  // Hide the <video> element, we'll use a canvas overlay instead
+  video.style.display = 'none';
+  poster.style.display = 'none';
+
+  // Create or reuse canvas
+  const container = document.querySelector('.player-container');
+  if (!animCanvas) {
+    animCanvas = document.createElement('canvas');
+    animCanvas.id = 'anim-canvas';
+    animCanvas.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:0;';
+    container.insertBefore(animCanvas, container.firstChild);
+  }
+  animCanvas.width = container.offsetWidth * 2;
+  animCanvas.height = container.offsetHeight * 2;
+  animCanvas.style.display = 'block';
+  animCtx = animCanvas.getContext('2d');
+
+  // Particle system unique per show
+  const seed = currentShowIndex * 137;
+  const particles = Array.from({length: 60}, (_, i) => ({
+    x: ((seed + i * 73) % 100) / 100,
+    y: ((seed + i * 31) % 100) / 100,
+    vx: (((seed + i * 17) % 200) - 100) / 8000,
+    vy: (((seed + i * 53) % 200) - 100) / 8000,
+    r: 2 + ((seed + i * 41) % 6),
+    a: 0.2 + ((seed + i * 23) % 60) / 100,
+  }));
+
+  cancelAnimationFrame(animFrame);
+  animStart = performance.now();
+  videoPlaying = true;
+
+  function renderFrame(ts) {
+    const elapsed = (ts - animStart) / 1000;
+    const w = animCanvas.width, h = animCanvas.height;
+    const ctx = animCtx;
+
+    // Background gradient (shifts over time)
+    const grad = ctx.createLinearGradient(0, 0, w * Math.sin(elapsed * 0.3), h);
+    grad.addColorStop(0, palette[0]);
+    grad.addColorStop(0.5, palette[1]);
+    grad.addColorStop(1, palette[0]);
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, w, h);
+
+    // Animated bokeh circles
+    particles.forEach(p => {
+      p.x += p.vx + Math.sin(elapsed * 2 + p.r) * 0.0003;
+      p.y += p.vy + Math.cos(elapsed * 1.5 + p.r) * 0.0003;
+      if (p.x < 0) p.x = 1; if (p.x > 1) p.x = 0;
+      if (p.y < 0) p.y = 1; if (p.y > 1) p.y = 0;
+
+      const px = p.x * w, py = p.y * h;
+      const glow = ctx.createRadialGradient(px, py, 0, px, py, p.r * 8);
+      glow.addColorStop(0, palette[2] + Math.round(p.a * 255).toString(16).padStart(2,'0'));
+      glow.addColorStop(0.5, palette[3] + '33');
+      glow.addColorStop(1, 'transparent');
+      ctx.fillStyle = glow;
+      ctx.fillRect(px - p.r * 8, py - p.r * 8, p.r * 16, p.r * 16);
+    });
+
+    // Subtle scan lines
+    ctx.fillStyle = 'rgba(0,0,0,0.06)';
+    for (let y = 0; y < h; y += 4) {
+      ctx.fillRect(0, y, w, 1);
+    }
+
+    // Vignette
+    const vg = ctx.createRadialGradient(w/2, h/2, w * 0.25, w/2, h/2, w * 0.7);
+    vg.addColorStop(0, 'transparent');
+    vg.addColorStop(1, 'rgba(0,0,0,0.6)');
+    ctx.fillStyle = vg;
+    ctx.fillRect(0, 0, w, h);
+
+    // Update progress bar
+    const duration = 10; // 10-second "video"
+    const progress = Math.min(elapsed / duration, 1);
+    const fill = document.getElementById('progress-fill');
+    if (fill) fill.style.width = (progress * 100) + '%';
+    const timeCurrent = document.getElementById('time-current');
+    const timeTotal = document.getElementById('time-total');
+    if (timeCurrent) timeCurrent.textContent = formatTime(elapsed);
+    if (timeTotal) timeTotal.textContent = formatTime(duration);
+
+    if (elapsed < duration && videoPlaying) {
+      animFrame = requestAnimationFrame(renderFrame);
+    } else if (elapsed >= duration) {
+      // Episode ended — advance to next
+      videoPlaying = false;
+      nextEpisode();
+    }
+  }
+
+  animFrame = requestAnimationFrame(renderFrame);
+  scheduleBanner();
+}
+
+function formatTime(s) {
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60);
+  return m + ':' + sec.toString().padStart(2, '0');
+}
 
 // Genre → Sponsor mapping
-// Romance → Mercedes-Benz, Drama → Airbnb, Action → Red Bull
-// Comedy, Thriller, Documentary → unsponsored
 const GENRE_SPONSORS = {
   'Romance': {
     brand: 'Mercedes-Benz',
@@ -52,9 +226,11 @@ const GENRE_SPONSORS = {
 function getSponsor(genre) {
   if (!genre) return GENRE_SPONSORS['Romance']; // fallback
   const g = genre.toLowerCase();
-  if (g.includes('romance') || g.includes('romantic')) return GENRE_SPONSORS['Romance'];
-  if (g.includes('crime') || g.includes('drama')) return GENRE_SPONSORS['Drama'];
-  if (g.includes('action') || g.includes('thriller') || g.includes('cyber')) return GENRE_SPONSORS['Action'];
+  if (g.includes('romance') || g.includes('romantic') || g.includes('k-drama')) return GENRE_SPONSORS['Romance'];
+  if (g.includes('crime') || g.includes('drama') || g.includes('documentary') || g.includes('true crime')) return GENRE_SPONSORS['Drama'];
+  if (g.includes('action') || g.includes('thriller') || g.includes('cyber') || g.includes('horror') || g.includes('fantasy')) return GENRE_SPONSORS['Action'];
+  if (g.includes('comedy') || g.includes('workplace')) return GENRE_SPONSORS['Drama'];
+  if (g.includes('sci-fi') || g.includes('anime')) return GENRE_SPONSORS['Action'];
   if (g.includes('mystery')) return GENRE_SPONSORS['Romance'];
   return GENRE_SPONSORS['Drama']; // default fallback
 }
@@ -127,44 +303,25 @@ function updatePlayerInfo() {
   genreEl.style.borderColor = '';
 }
 
-function playCurrentVideo() {
-  const video = document.getElementById('main-video');
-  const poster = document.getElementById('poster-fallback');
-  const vidIdx = currentEpisode % VIDEOS.length;
-  video.src = VIDEOS[vidIdx];
-  video.load();
-  video.play().then(() => {
-    videoPlaying = true;
-    poster.style.display = 'none';
-    video.style.display = 'block';
-    scheduleBanner();
-  }).catch(() => {
-    // Video failed to autoplay, show poster
-    poster.src = SHOWS[currentShowIndex].poster;
-    poster.style.display = 'block';
-    video.style.display = 'none';
-    scheduleBanner();
-  });
-}
+// (old playCurrentVideo removed – canvas version is above)
 
 function pauseVideo() {
-  const video = document.getElementById('main-video');
-  video.pause();
+  cancelAnimationFrame(animFrame);
   videoPlaying = false;
   clearTimeout(bannerTimeout);
 }
 
 function togglePlay() {
-  const video = document.getElementById('main-video');
   const playBtn = document.getElementById('play-center');
-  if (video.paused) {
-    video.play();
-    videoPlaying = true;
-    playBtn.textContent = '⏸';
-  } else {
-    video.pause();
+  if (videoPlaying) {
+    cancelAnimationFrame(animFrame);
     videoPlaying = false;
     playBtn.textContent = '▶';
+  } else {
+    videoPlaying = true;
+    animStart = performance.now() - (animStart ? (performance.now() - animStart) : 0);
+    playCurrentVideo();
+    playBtn.textContent = '⏸';
   }
   playBtn.classList.add('show');
   setTimeout(() => playBtn.classList.remove('show'), 800);
@@ -206,11 +363,7 @@ function updateProgress() {
   }
 }
 
-function formatTime(s) {
-  const m = Math.floor(s / 60);
-  const sec = Math.floor(s % 60);
-  return m + ':' + (sec < 10 ? '0' : '') + sec;
-}
+// formatTime defined earlier in canvas section
 
 // ── SWIPE HANDLING ──
 let touchStartY = 0;
@@ -369,7 +522,7 @@ function triggerAd(type) {
       break;
     case 'genre':
       // Open a Romance show (Mercedes-Benz sponsored) to demo genre tag
-      openPlayer(3, 0);
+      openPlayer(16, 0); // Silk & Thorns
       showToast('Romance genre sponsored by Mercedes-Benz');
       break;
     case 'outro':
@@ -430,13 +583,6 @@ function toggleSetting(el) {
 
 // ── INIT ──
 document.addEventListener('DOMContentLoaded', () => {
-  // Set status bar time
-  const now = new Date();
-  const h = now.getHours();
-  const m = now.getMinutes().toString().padStart(2, '0');
-  const ampm = h >= 12 ? 'PM' : 'AM';
-  document.getElementById('status-time').textContent = (h % 12 || 12) + ':' + m + ' ' + ampm;
-
   // Init hero carousel
   initHero();
 
