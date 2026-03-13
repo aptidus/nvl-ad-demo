@@ -1,78 +1,78 @@
 // ── NVL Demo App ──
 
-// 30-title media library spanning Netflix-style genres
+// 36-title media library spanning Netflix-style genres — each with unique poster
 const SHOWS = [
   // ── Thriller / Psychological ──
-  { id: 'fractured', title: 'Fractured', genre: 'Psychological Thriller', eps: 12, poster: 'assets/episode-1.png', desc: 'A detective unravels her own past while chasing a serial case that mirrors her childhood trauma.' },
-  { id: 'algorithm', title: 'The Algorithm', genre: 'Cyber Thriller', eps: 6, poster: 'assets/poster-the-algorithm.png', desc: 'A programmer discovers the AI she built has been watching her back—predicting her every move before she makes it.' },
-  { id: 'blindspot', title: 'Blindspot', genre: 'Thriller', eps: 8, poster: 'assets/episode-2.png', desc: 'A neurosurgeon loses her sight in a car accident—and starts seeing visions of crimes before they happen.' },
+  { id: 'fractured', title: 'Fractured', genre: 'Psychological Thriller', eps: 12, poster: 'assets/posters/fractured.png', desc: 'A detective unravels her own past while chasing a serial case that mirrors her childhood trauma.' },
+  { id: 'algorithm', title: 'The Algorithm', genre: 'Cyber Thriller', eps: 6, poster: 'assets/posters/algorithm.png', desc: 'A programmer discovers the AI she built has been watching her back—predicting her every move before she makes it.' },
+  { id: 'blindspot', title: 'Blindspot', genre: 'Thriller', eps: 8, poster: 'assets/posters/blindspot.png', desc: 'A neurosurgeon loses her sight in a car accident—and starts seeing visions of crimes before they happen.' },
 
   // ── Crime / Drama ──
-  { id: 'cold-trail', title: 'Cold Trail', genre: 'Crime Drama', eps: 8, poster: 'assets/episode-2.png', desc: 'When evidence resurfaces from a decade-old disappearance, a retired investigator must confront the case that ended his career.' },
-  { id: 'neon-saints', title: 'Neon Saints', genre: 'Crime Drama', eps: 9, poster: 'assets/poster-neon-saints.png', desc: 'Three strangers converge on a neon-lit nightclub where allegiances shift and the midnight saints decide who lives.' },
-  { id: 'the-wire-city', title: 'Wire City', genre: 'Crime', eps: 10, poster: 'assets/poster-neon-saints.png', desc: 'An undercover cop infiltrates a cybercrime ring operating from the rooftops of a megacity. One wrong packet and it\'s over.' },
+  { id: 'cold-trail', title: 'Cold Trail', genre: 'Crime Drama', eps: 8, poster: 'assets/posters/cold-trail.png', desc: 'When evidence resurfaces from a decade-old disappearance, a retired investigator must confront the case that ended his career.' },
+  { id: 'neon-saints', title: 'Neon Saints', genre: 'Crime Drama', eps: 9, poster: 'assets/posters/neon-saints.png', desc: 'Three strangers converge on a neon-lit nightclub where allegiances shift and the midnight saints decide who lives.' },
+  { id: 'the-wire-city', title: 'Wire City', genre: 'Crime', eps: 10, poster: 'assets/posters/the-wire-city.png', desc: 'An undercover cop infiltrates a cybercrime ring operating from the rooftops of a megacity. One wrong packet and it\'s over.' },
 
   // ── Action / Adventure ──
-  { id: 'last-exit', title: 'Last Exit', genre: 'Action Thriller', eps: 14, poster: 'assets/poster-last-exit.png', desc: 'Sometimes the only way out is straight through. A man on the run battles his way across the desert.' },
-  { id: 'warpath', title: 'Warpath', genre: 'Action', eps: 10, poster: 'assets/poster-last-exit.png', desc: 'A disgraced MMA fighter is recruited by a covert ops unit. The octagon was child\'s play compared to this.' },
-  { id: 'extraction-zero', title: 'Extraction Zero', genre: 'Action Adventure', eps: 8, poster: 'assets/episode-3.png', desc: 'Deep in the Amazon, a rescue team discovers the hostage they came for doesn\'t want to be saved.' },
+  { id: 'last-exit', title: 'Last Exit', genre: 'Action Thriller', eps: 14, poster: 'assets/posters/last-exit.png', desc: 'Sometimes the only way out is straight through. A man on the run battles his way across the desert.' },
+  { id: 'warpath', title: 'Warpath', genre: 'Action', eps: 10, poster: 'assets/posters/warpath.png', desc: 'A disgraced MMA fighter is recruited by a covert ops unit. The octagon was child\'s play compared to this.' },
+  { id: 'extraction-zero', title: 'Extraction Zero', genre: 'Action Adventure', eps: 8, poster: 'assets/posters/extraction-zero.png', desc: 'Deep in the Amazon, a rescue team discovers the hostage they came for doesn\'t want to be saved.' },
 
   // ── Comedy ──
-  { id: 'hot-mess', title: 'Hot Mess', genre: 'Comedy', eps: 12, poster: 'assets/poster-silk-thorns.png', desc: 'A celebrity chef\'s restaurant burns down on live TV. Now she runs a taco truck and somehow it\'s thriving.' },
-  { id: 'coworking', title: 'Co//Working', genre: 'Workplace Comedy', eps: 10, poster: 'assets/poster-the-algorithm.png', desc: 'Five remote workers share a coworking space. None of them can agree on the thermostat, the music, or reality.' },
-  { id: 'family-algo', title: 'The Family Algorithm', genre: 'Comedy Drama', eps: 8, poster: 'assets/poster-still-water.png', desc: 'A data scientist tries to optimize her dysfunctional family using behavioral algorithms. It backfires spectacularly.' },
+  { id: 'hot-mess', title: 'Hot Mess', genre: 'Comedy', eps: 12, poster: 'assets/posters/hot-mess.png', desc: 'A celebrity chef\'s restaurant burns down on live TV. Now she runs a taco truck and somehow it\'s thriving.' },
+  { id: 'coworking', title: 'Co//Working', genre: 'Workplace Comedy', eps: 10, poster: 'assets/posters/coworking.png', desc: 'Five remote workers share a coworking space. None of them can agree on the thermostat, the music, or reality.' },
+  { id: 'family-algo', title: 'The Family Algorithm', genre: 'Comedy Drama', eps: 8, poster: 'assets/posters/family-algo.png', desc: 'A data scientist tries to optimize her dysfunctional family using behavioral algorithms. It backfires spectacularly.' },
 
   // ── Horror ──
-  { id: 'the-hallowing', title: 'The Hallowing', genre: 'Horror', eps: 6, poster: 'assets/episode-1.png', desc: 'Every Halloween, the residents of Hollow Creek celebrate an ancient festival. This year, the masks come alive.' },
-  { id: 'below-the-floor', title: 'Below the Floor', genre: 'Horror Thriller', eps: 8, poster: 'assets/episode-2.png', desc: 'A family moves into their dream home. Then they discover why the previous owners cemented the basement shut.' },
-  { id: 'sleep-watchers', title: 'Sleep Watchers', genre: 'Supernatural Horror', eps: 10, poster: 'assets/poster-still-water.png', desc: 'Insomniacs in a sleep clinic start sharing the same nightmare. The thing in the dream knows their names.' },
+  { id: 'the-hallowing', title: 'The Hallowing', genre: 'Horror', eps: 6, poster: 'assets/posters/the-hallowing.png', desc: 'Every Halloween, the residents of Hollow Creek celebrate an ancient festival. This year, the masks come alive.' },
+  { id: 'below-the-floor', title: 'Below the Floor', genre: 'Horror Thriller', eps: 8, poster: 'assets/posters/below-the-floor.png', desc: 'A family moves into their dream home. Then they discover why the previous owners cemented the basement shut.' },
+  { id: 'sleep-watchers', title: 'Sleep Watchers', genre: 'Supernatural Horror', eps: 10, poster: 'assets/posters/sleep-watchers.png', desc: 'Insomniacs in a sleep clinic start sharing the same nightmare. The thing in the dream knows their names.' },
 
   // ── Romance / Romantic Drama ──
-  { id: 'glass-walls', title: 'Glass Walls', genre: 'Romance Thriller', eps: 16, poster: 'assets/episode-3.png', desc: 'A corporate whistleblower falls for the attorney prosecuting her former employer. Trust becomes currency.' },
-  { id: 'silk-thorns', title: 'Silk & Thorns', genre: 'Romantic Drama', eps: 10, poster: 'assets/poster-silk-thorns.png', desc: 'Love grows in the darkest shadows. Two strangers meet in a rain-soaked alley and change each other forever.' },
-  { id: 'paris-rewind', title: 'Paris Rewind', genre: 'Romance', eps: 8, poster: 'assets/poster-silk-thorns.png', desc: 'A time loop traps two strangers in a single perfect day in Paris. Every reset, they remember more—and fall harder.' },
+  { id: 'glass-walls', title: 'Glass Walls', genre: 'Romance Thriller', eps: 16, poster: 'assets/posters/glass-walls.png', desc: 'A corporate whistleblower falls for the attorney prosecuting her former employer. Trust becomes currency.' },
+  { id: 'silk-thorns', title: 'Silk & Thorns', genre: 'Romantic Drama', eps: 10, poster: 'assets/posters/silk-thorns.png', desc: 'Love grows in the darkest shadows. Two strangers meet in a rain-soaked alley and change each other forever.' },
+  { id: 'paris-rewind', title: 'Paris Rewind', genre: 'Romance', eps: 8, poster: 'assets/posters/paris-rewind.png', desc: 'A time loop traps two strangers in a single perfect day in Paris. Every reset, they remember more—and fall harder.' },
 
   // ── Sci-Fi ──
-  { id: 'arc-seven', title: 'Arc Seven', genre: 'Sci-Fi', eps: 10, poster: 'assets/poster-the-algorithm.png', desc: 'Humanity\'s last colony ship receives a signal from Earth: "We\'re alive. Don\'t come back." The crew splits.' },
-  { id: 'echo-state', title: 'Echo State', genre: 'Sci-Fi Thriller', eps: 8, poster: 'assets/episode-1.png', desc: 'Consciousness can be backed up. But when a woman wakes in a body she doesn\'t recognize, she questions who she really is.' },
-  { id: 'terraform', title: 'Terraform', genre: 'Sci-Fi Drama', eps: 12, poster: 'assets/poster-neon-saints.png', desc: 'Mars colonists face a moral crisis when the terraforming process awakens something already living in the soil.' },
+  { id: 'arc-seven', title: 'Arc Seven', genre: 'Sci-Fi', eps: 10, poster: 'assets/posters/arc-seven.png', desc: 'Humanity\'s last colony ship receives a signal from Earth: "We\'re alive. Don\'t come back." The crew splits.' },
+  { id: 'echo-state', title: 'Echo State', genre: 'Sci-Fi Thriller', eps: 8, poster: 'assets/posters/echo-state.png', desc: 'Consciousness can be backed up. But when a woman wakes in a body she doesn\'t recognize, she questions who she really is.' },
+  { id: 'terraform', title: 'Terraform', genre: 'Sci-Fi Drama', eps: 12, poster: 'assets/posters/terraform.png', desc: 'Mars colonists face a moral crisis when the terraforming process awakens something already living in the soil.' },
 
   // ── Mystery / Suspense ──
-  { id: 'still-water', title: 'Still Water', genre: 'Mystery Drama', eps: 8, poster: 'assets/poster-still-water.png', desc: 'A woman returns to her lakeside hometown after 15 years to find the truth her family buried beneath the surface.' },
-  { id: 'the-vanishing', title: 'The Vanishing', genre: 'Mystery', eps: 6, poster: 'assets/episode-3.png', desc: 'A small island\'s entire fishing fleet disappears overnight. The boats wash ashore a week later—empty and locked from the inside.' },
+  { id: 'still-water', title: 'Still Water', genre: 'Mystery Drama', eps: 8, poster: 'assets/posters/still-water.png', desc: 'A woman returns to her lakeside hometown after 15 years to find the truth her family buried beneath the surface.' },
+  { id: 'the-vanishing', title: 'The Vanishing', genre: 'Mystery', eps: 6, poster: 'assets/posters/the-vanishing.png', desc: 'A small island\'s entire fishing fleet disappears overnight. The boats wash ashore a week later—empty and locked from the inside.' },
 
   // ── Documentary ──
-  { id: 'inside-the-machine', title: 'Inside the Machine', genre: 'Documentary', eps: 6, poster: 'assets/poster-the-algorithm.png', desc: 'How a team of 12 engineers at a startup built an AI that passed the bar exam—and what happened next.' },
-  { id: 'the-last-glacier', title: 'The Last Glacier', genre: 'Documentary', eps: 4, poster: 'assets/poster-still-water.png', desc: 'Climate scientists race to document Earth\'s fastest-melting glacier before it vanishes forever.' },
+  { id: 'inside-the-machine', title: 'Inside the Machine', genre: 'Documentary', eps: 6, poster: 'assets/posters/inside-the-machine.png', desc: 'How a team of 12 engineers at a startup built an AI that passed the bar exam—and what happened next.' },
+  { id: 'the-last-glacier', title: 'The Last Glacier', genre: 'Documentary', eps: 4, poster: 'assets/posters/the-last-glacier.png', desc: 'Climate scientists race to document Earth\'s fastest-melting glacier before it vanishes forever.' },
 
   // ── Fantasy / Anime ──
-  { id: 'shadow-court', title: 'Shadow Court', genre: 'Dark Fantasy', eps: 12, poster: 'assets/poster-neon-saints.png', desc: 'A disgraced knight discovers she\'s the heir to a fallen kingdom that exists between the cracks of reality.' },
-  { id: 'spirit-engine', title: 'Spirit Engine', genre: 'Anime', eps: 24, poster: 'assets/poster-last-exit.png', desc: 'In a world where souls power machines, a mechanic discovers her dead brother\'s spirit has been trapped inside her motorcycle.' },
+  { id: 'shadow-court', title: 'Shadow Court', genre: 'Dark Fantasy', eps: 12, poster: 'assets/posters/shadow-court.png', desc: 'A disgraced knight discovers she\'s the heir to a fallen kingdom that exists between the cracks of reality.' },
+  { id: 'spirit-engine', title: 'Spirit Engine', genre: 'Anime', eps: 24, poster: 'assets/posters/spirit-engine.png', desc: 'In a world where souls power machines, a mechanic discovers her dead brother\'s spirit has been trapped inside her motorcycle.' },
 
   // ── K-Drama / International ──
-  { id: 'seoul-midnight', title: 'Seoul Midnight', genre: 'K-Drama', eps: 16, poster: 'assets/poster-silk-thorns.png', desc: 'A K-pop trainee and a street food vendor cross paths at midnight. Their worlds shouldn\'t mix—but Seoul has other plans.' },
-  { id: 'the-exchange', title: 'The Exchange', genre: 'K-Drama Thriller', eps: 12, poster: 'assets/episode-1.png', desc: 'Two rival stock traders are forced to share a trading desk. The market is volatile; so is their chemistry.' },
+  { id: 'seoul-midnight', title: 'Seoul Midnight', genre: 'K-Drama', eps: 16, poster: 'assets/posters/seoul-midnight.png', desc: 'A K-pop trainee and a street food vendor cross paths at midnight. Their worlds shouldn\'t mix—but Seoul has other plans.' },
+  { id: 'the-exchange', title: 'The Exchange', genre: 'K-Drama Thriller', eps: 12, poster: 'assets/posters/the-exchange.png', desc: 'Two rival stock traders are forced to share a trading desk. The market is volatile; so is their chemistry.' },
 
   // ── True Crime ──
-  { id: 'the-confession-tapes', title: 'The Confession Tapes', genre: 'True Crime', eps: 8, poster: 'assets/episode-2.png', desc: 'Interrogation footage from the most controversial confessions of the decade. Were they telling the truth?' },
+  { id: 'the-confession-tapes', title: 'The Confession Tapes', genre: 'True Crime', eps: 8, poster: 'assets/posters/the-confession-tapes.png', desc: 'Interrogation footage from the most controversial confessions of the decade. Were they telling the truth?' },
 
   // ── Medical Drama ──
-  { id: 'code-blue', title: 'Code Blue', genre: 'Medical Drama', eps: 10, poster: 'assets/episode-3.png', desc: 'A trauma surgeon operates on the city\'s most dangerous patients by night—while hiding a secret that could end her career.' },
+  { id: 'code-blue', title: 'Code Blue', genre: 'Medical Drama', eps: 10, poster: 'assets/posters/code-blue.png', desc: 'A trauma surgeon operates on the city\'s most dangerous patients by night—while hiding a secret that could end her career.' },
 
   // ── Survival ──
-  { id: 'thin-ice', title: 'Thin Ice', genre: 'Survival Thriller', eps: 8, poster: 'assets/poster-last-exit.png', desc: 'Six strangers crash-land on an Arctic ice sheet. Rescue is 48 hours away. The ice is breaking faster than expected.' },
+  { id: 'thin-ice', title: 'Thin Ice', genre: 'Survival Thriller', eps: 8, poster: 'assets/posters/thin-ice.png', desc: 'Six strangers crash-land on an Arctic ice sheet. Rescue is 48 hours away. The ice is breaking faster than expected.' },
 
   // ── Heist ──
-  { id: 'vault-9', title: 'Vault 9', genre: 'Heist', eps: 6, poster: 'assets/poster-neon-saints.png', desc: 'A retired safecracker is pulled back for one impossible job—a vault nine stories underground with no blueprints.' },
+  { id: 'vault-9', title: 'Vault 9', genre: 'Heist', eps: 6, poster: 'assets/posters/vault-9.png', desc: 'A retired safecracker is pulled back for one impossible job—a vault nine stories underground with no blueprints.' },
 
   // ── Anthology ──
-  { id: 'parallel-lives', title: 'Parallel Lives', genre: 'Anthology', eps: 12, poster: 'assets/poster-the-algorithm.png', desc: 'Each episode follows a different person at the exact same crossroads. One choice. Infinite consequences.' },
+  { id: 'parallel-lives', title: 'Parallel Lives', genre: 'Anthology', eps: 12, poster: 'assets/posters/parallel-lives.png', desc: 'Each episode follows a different person at the exact same crossroads. One choice. Infinite consequences.' },
 
   // ── Sports Drama ──
-  { id: 'breakaway', title: 'Breakaway', genre: 'Sports Drama', eps: 10, poster: 'assets/poster-still-water.png', desc: 'A disgraced Olympic cyclist returns to competition after a doping scandal—this time clean, this time with everything to prove.' },
+  { id: 'breakaway', title: 'Breakaway', genre: 'Sports Drama', eps: 10, poster: 'assets/posters/breakaway.png', desc: 'A disgraced Olympic cyclist returns to competition after a doping scandal—this time clean, this time with everything to prove.' },
 
   // ── Limited Series ──
-  { id: 'the-architect', title: 'The Architect', genre: 'Limited Series', eps: 6, poster: 'assets/episode-1.png', desc: 'A grieving architect designs a memorial for the disaster that killed his family. Each floor reveals a buried truth.' },
+  { id: 'the-architect', title: 'The Architect', genre: 'Limited Series', eps: 6, poster: 'assets/posters/the-architect.png', desc: 'A grieving architect designs a memorial for the disaster that killed his family. Each floor reveals a buried truth.' },
 ];
 
 // Color palettes per genre for canvas-generated visuals
