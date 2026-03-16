@@ -1,0 +1,16 @@
+{
+  "name": "NVL — Premium Short-Form Video",
+  "short_name": "NVL",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f2f0ed",
+  "theme_color": "#f2f0ed",
+  "icons": [
+    {
+      "src": "assets/posters/fractured.png",
+      "sizes": "480x720",
+      "type": "image/png"
+    }
+  ]
+}
